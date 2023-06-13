@@ -10,13 +10,13 @@ spring:
       enabled: true
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@121.199.167.96:1521:helowin
-    username: admin
-    password: admin
+    url: jdbc:oracle:thin:@ip:SID
+    username: *
+    password: *
   redis:
-    host: 121.199.167.96
-    port: 6379
-    password: aks123456
+    host: ip
+    port: 端口
+    password: 密码rt
     lettuce:
       pool:
         max-active: 10
@@ -24,10 +24,9 @@ spring:
         min-idle: 1
         time-between-eviction-runs: 10s
   jackson:
-    default-property-inclusion: non_null # JSON\u5904\u7406\u65F6\u5FFD\u7565\u975E\u7A7A\u5B57\u6BB5
+    default-property-inclusion: non_null
 mybatis:
   configuration:
-    # \u4E0B\u5212\u7EBF\u8F6C\u9A7C\u5CF0
     map-underscore-to-camel-case: true
   mapper-locations: classpath:mappers/*.xml
   type-aliases-package: com.aks.cateringinfosys.entry
