@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aks.cateringinfosys.mappers.UserMapper">
+    <insert id="inertUser"></insert>
+    <update id="updateUser"></update>
+    <select id="queryUserByUserName" resultType="java.lang.Long"></select>
+    <select id="queryUserByEmail" resultType="com.aks.cateringinfosys.entry.User"></select>
+    <select id="queryLogin" resultType="com.aks.cateringinfosys.entry.User"></select>
+</mapper>
