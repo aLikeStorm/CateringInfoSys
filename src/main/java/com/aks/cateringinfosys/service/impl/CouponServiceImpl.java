@@ -45,7 +45,7 @@ public class CouponServiceImpl implements ICouponService {
     StringRedisTemplate redisTemplate;
     @Override
     public Result getRestCoupon(Long rid) {
-        String couponStr = redisTemplate.opsForValue().get(CACHE_COUPON_KEY + ":" + rid);
+        String couponStr = redisTemplate.opsForValue().get(CACHE_COUPON_KEY + rid);
         if (couponStr != null && couponStr != "" && !CACHE_NULL.equals(couponStr)){
             List<Coupon> list = JSONUtil.toBean(couponStr, List.class);
             logger.info(UserHolder.getUser().getUid() + "查询店铺"+rid+"优惠卷获得"+list);
@@ -57,13 +57,13 @@ public class CouponServiceImpl implements ICouponService {
         }
         List<Coupon> couponList = couponMapper.queryCouponList(rid);
         if (couponList == null) {
-            redisTemplate.opsForValue().set(CACHE_COUPON_KEY+":"+rid,
+            redisTemplate.opsForValue().set(CACHE_COUPON_KEY + rid,
                     CACHE_NULL,CACHE_NULL_TTL,
                     TimeUnit.MINUTES);
             logger.info(UserHolder.getUser().getUid() + "查询店铺"+rid+"优惠卷为空");
             return Result.fail("店铺没有优惠券");
         }
-        redisTemplate.opsForValue().set(CACHE_COUPON_KEY+":"+rid,
+        redisTemplate.opsForValue().set(CACHE_COUPON_KEY + rid,
                 JSONUtil.toJsonStr(couponList),
                 CACHE_COUPON_TTL,
                 TimeUnit.MINUTES);
@@ -83,7 +83,7 @@ public class CouponServiceImpl implements ICouponService {
             return Result.fail("您已经有此优惠啦，请前往个人中心使用该优惠卷");
         }
         Coupon coupon = null;
-        String couponStr = redisTemplate.opsForValue().get(CACHE_COUPON_KEY + ":" + "cid");
+        String couponStr = redisTemplate.opsForValue().get(CACHE_COUPON_KEY + "cid");
         if (couponStr == null || couponStr == "" || CACHE_NULL.equals(couponStr)){
             coupon = couponMapper.queryCouponByCid(cid);
 
@@ -108,7 +108,7 @@ public class CouponServiceImpl implements ICouponService {
             return Result.fail("优惠卷已经抢光啦");
         }
         // todo 一人一张优惠卷一把锁
-        String key = SNAPPED_LOCK+":"+cid;
+        String key = SNAPPED_LOCK + cid;
         boolean lock = tryLock(key, 6L);
         if (!lock) {
             return Result.fail("不允许使用抢票程序进行抢票");

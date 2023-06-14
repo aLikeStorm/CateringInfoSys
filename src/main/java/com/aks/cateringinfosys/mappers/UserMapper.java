@@ -1,6 +1,5 @@
 package com.aks.cateringinfosys.mappers;
 
-import com.aks.cateringinfosys.dto.LoginFormDTO;
 import com.aks.cateringinfosys.dto.UserDTO;
 import com.aks.cateringinfosys.entry.User;
 import org.apache.ibatis.annotations.Mapper;
@@ -21,7 +20,7 @@ public interface UserMapper {
     Integer updateUser(UserDTO userDTO);
 
     //todo 根据用户名查询用户
-    Long queryUserByUserName(String username);
+    User queryUserByUserName(String username);
 
     //todo 根据邮箱查询用户
     User queryUserByEmail(String email);

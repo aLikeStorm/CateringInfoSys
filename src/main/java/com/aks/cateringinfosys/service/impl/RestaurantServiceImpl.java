@@ -40,7 +40,7 @@ public class RestaurantServiceImpl implements IRestaurantService {
     @Override
     public Result getRestaurantsFromCity(Integer cityCode) {
         //todo 1. 首先查询redis获取
-        String restStr = redisTemplate.opsForValue().get(CACHE_HOT_RESTAURANT_KEY + ":"+cityCode);
+        String restStr = redisTemplate.opsForValue().get(CACHE_HOT_RESTAURANT_KEY + cityCode);
 
         // todo 2. 判断redis中有该城市餐馆的缓存
         if (restStr != null && restStr != "" && !restStr.equals(CACHE_NULL)) {
@@ -59,7 +59,7 @@ public class RestaurantServiceImpl implements IRestaurantService {
         // todo 4. 没有缓存，将该城市没有餐馆
         if (restList == null || restList.size() == 0) {
             // todo 4.1 向redis中这个城市的热点餐馆缓存为空,缓存的保存时间不应该太久
-            redisTemplate.opsForValue().set(CACHE_HOT_RESTAURANT_KEY+ ":"+cityCode,
+            redisTemplate.opsForValue().set(CACHE_HOT_RESTAURANT_KEY + cityCode,
                     CACHE_NULL,
                     CACHE_NULL_TTL,
                     TimeUnit.MINUTES);
@@ -75,7 +75,7 @@ public class RestaurantServiceImpl implements IRestaurantService {
         }).collect(Collectors.toList());
 
         restStr = JSONUtil.toJsonStr(restList);
-        redisTemplate.opsForValue().set(CACHE_HOT_RESTAURANT_KEY+ ":"+cityCode,
+        redisTemplate.opsForValue().set(CACHE_HOT_RESTAURANT_KEY + cityCode,
                 restStr,
                 CACHE_RESTAURANT_TTL,
                 TimeUnit.MINUTES);
@@ -101,7 +101,7 @@ public class RestaurantServiceImpl implements IRestaurantService {
     public Result getRestaurantById(Long rid) {
 
         // todo 1. 去redis查询餐馆
-        String restStr = redisTemplate.opsForValue().get(CACHE_RESTAURANT_KEY + ":" + rid);
+        String restStr = redisTemplate.opsForValue().get(CACHE_RESTAURANT_KEY  + rid);
 
         // todo 2. 命中
         if (restStr != null && restStr != "") {
@@ -121,7 +121,7 @@ public class RestaurantServiceImpl implements IRestaurantService {
 
         // todo 5. 查询到存入redis 返回
         rest.setImageList(imageMapper.queryImageListByForeign(rid));
-        redisTemplate.opsForValue().set(CACHE_RESTAURANT_KEY+":"+rid,
+        redisTemplate.opsForValue().set(CACHE_RESTAURANT_KEY + rid,
                 JSONUtil.toJsonStr(rest),
                 CACHE_RESTAURANT_TTL,
                 TimeUnit.MINUTES);

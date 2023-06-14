@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### 忽略日志文件 ###
+logs/error/*.log
+logs/info/*.log
+logs/wran/*.log
+
+**/application.yml

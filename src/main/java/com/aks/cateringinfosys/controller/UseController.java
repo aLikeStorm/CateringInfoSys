@@ -35,6 +35,12 @@ public class UseController {
     public Result editUser(@RequestBody UserDTO userDTO) {
         return userService.editUser(userDTO);
     }
+
+    @PostMapping("/login/admin")
+    public Result loginAdmin(@RequestBody LoginFormDTO loginFormDTO) {
+        return userService.loginAdmin(loginFormDTO);
+    }
+
     @PostMapping("/login/account")
     public Result loginByUserName(@RequestBody LoginFormDTO loginFrom) {
         return userService.loginByUserName(loginFrom);

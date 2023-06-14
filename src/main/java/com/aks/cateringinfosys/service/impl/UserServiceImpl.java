@@ -4,7 +4,6 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.RandomUtil;
-import cn.hutool.crypto.digest.MD5;
 import com.aks.cateringinfosys.dto.LoginEmailDTO;
 import com.aks.cateringinfosys.dto.LoginFormDTO;
 import com.aks.cateringinfosys.dto.Result;
@@ -12,10 +11,7 @@ import com.aks.cateringinfosys.dto.UserDTO;
 import com.aks.cateringinfosys.entry.User;
 import com.aks.cateringinfosys.mappers.UserMapper;
 import com.aks.cateringinfosys.service.IUserService;
-import com.aks.cateringinfosys.utils.RedisConstants;
-import com.aks.cateringinfosys.utils.RedisIdWorker;
-import com.aks.cateringinfosys.utils.RegexUtils;
-import com.aks.cateringinfosys.utils.UserHolder;
+import com.aks.cateringinfosys.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,20 +52,19 @@ public class UserServiceImpl implements IUserService {
             logger.error("用户"+ userId + "修改信息失败");
             return Result.fail("修改信息失败");
         }
-        redisTemplate.delete(RedisConstants.LOGIN_USER_KEY+":" +userId);
+        redisTemplate.delete(RedisConstants.LOGIN_USER_KEY +userId);
         logger.info("用户"+ userId + "修改信息成功"+userDTO);
         return Result.ok("用户信息修改成功");
     }
 
     @Override
     public Result loginByUserName(LoginFormDTO loginFrom) {
-        Long uid = userMapper.queryUserByUserName(loginFrom.getUsername());
-        if (uid == null || uid == 0) {
+        User user = userMapper.queryUserByUserName(loginFrom.getUsername());
+        if (user == null) {
             logger.error(loginFrom+ "登陆失败,用户不存在");
             return Result.fail("用户不存在");
         }
-        User user = userMapper.queryLogin(uid,loginFrom.getPassword());
-        if (user == null) {
+        if (PasswordEncoder.matches(user.getPassword(),loginFrom.getPassword())) {
             logger.error(loginFrom+ "登陆失败，用户不存在");
             return Result.fail("密码错误");
         }
@@ -104,13 +99,13 @@ public class UserServiceImpl implements IUserService {
         String code = RandomUtil.randomNumbers(6);
         System.out.println(code);
         logger.error(email+ "发送验证码"+code);
-        redisTemplate.opsForValue().set(LOGIN_CODE_KEY+":"+email,code,LOGIN_CODE_TTL,TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(LOGIN_CODE_KEY + email,code,LOGIN_CODE_TTL,TimeUnit.MINUTES);
         return Result.ok(code);
     }
 
     @Override
     public Result loginByEmail(LoginEmailDTO loginEmailDTO) {
-        String s = redisTemplate.opsForValue().get(LOGIN_CODE_KEY + ":" + loginEmailDTO.getEmail());
+        String s = redisTemplate.opsForValue().get(LOGIN_CODE_KEY + loginEmailDTO.getEmail());
         if (!loginEmailDTO.equals(s)) {
             return Result.fail("验证码错误");
         }
@@ -141,6 +136,8 @@ public class UserServiceImpl implements IUserService {
         if (!RegexUtils.isEmailInvalid(user.getEmail())) {
             return Result.fail("注册失败,邮箱非法");
         }
+        //todo 对密码进行加密
+        user.setPassword(PasswordEncoder.encode(user.getPassword()));
         Integer flag = userMapper.inertUser(user);
         if(flag != 1) {
             logger.error(user+"注册失败");
@@ -148,5 +145,35 @@ public class UserServiceImpl implements IUserService {
         }
         logger.info(user+"注册成功");
         return Result.ok("注册成功,登陆试试");
+    }
+
+
+    @Override
+    public Result loginAdmin(LoginFormDTO loginFormDTO) {
+        if (!SystemConstants.admin.getUsername().equals(loginFormDTO.getUsername())) {
+            return Result.fail("账户名错误");
+        }
+        if (!SystemConstants.admin.getPassword().equals(loginFormDTO.getPassword())) {
+            return Result.fail("密码错误");
+        }
+        // todo 生成随机token返回给浏览器，用做redis的key UUID不是java默认的UUID，是htool的，true为不需要下划线
+        String token = UUID.randomUUID().toString(true);
+        //注意敏感信息
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUid(1L);
+        userDTO.setUsername("admin");
+        userDTO.setDesc("管理员");
+        // todo 在类型转换时，不管什么类型都转化为字符串类型
+        HashMap<String, Object> user = new HashMap<>();
+        user.put("uid",userDTO.getUid().toString());
+        user.put("username",userDTO.getUsername());
+        user.put("email",userDTO.getEmail());
+        user.put("desc",userDTO.getDesc());
+        String key = RedisConstants.LOGIN_USER_KEY+token;
+        redisTemplate.opsForHash().putAll(key,user);
+        // todo 设置有效期，但是只要用户不断访问就不断更新访问日期
+        redisTemplate.expire(key,RedisConstants.LOGIN_USER_TTL, TimeUnit.SECONDS);
+        // todo 给前端返回token
+        return Result.ok(token);
     }
 }

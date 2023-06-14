@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
     @Autowired
     ICommentService commentService;
-    @GetMapping("getRestComments/{rid}")
+    @GetMapping("/getRestComments/{rid}")
     public Result getRestComments(@PathVariable("rid") Integer rid) {
         return commentService.getRestComments(rid);
     }

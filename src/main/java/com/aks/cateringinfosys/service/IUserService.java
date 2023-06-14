@@ -24,4 +24,6 @@ public interface IUserService {
     Result loginByEmail(LoginEmailDTO loginEmailDTO);
 
     Result register(User user);
+
+    Result loginAdmin(LoginFormDTO loginFormDTO);
 }

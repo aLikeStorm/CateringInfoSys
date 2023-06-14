@@ -6,7 +6,6 @@ import com.aks.cateringinfosys.entry.Comment;
 import com.aks.cateringinfosys.mappers.CommentMapper;
 import com.aks.cateringinfosys.mappers.ImageMapper;
 import com.aks.cateringinfosys.service.ICommentService;
-import com.aks.cateringinfosys.utils.RedisConstants;
 import com.aks.cateringinfosys.utils.RedisIdWorker;
 import com.aks.cateringinfosys.utils.UserHolder;
 import org.slf4j.Logger;
@@ -48,7 +47,7 @@ public class CommentServiceImpl implements ICommentService {
 
     @Override
     public Result getRestComments(Integer rid) {
-        String commentStr = stringRedisTemplate.opsForValue().get(CACHE_COMMENTLIST_KEY + ":" + rid);
+        String commentStr = stringRedisTemplate.opsForValue().get(CACHE_COMMENTLIST_KEY + rid);
         if (commentStr != null && commentStr != null && !CACHE_NULL.equals(commentStr)) {
             List<Comment> commentList = JSONUtil.toBean(commentStr, List.class);
             logger.info(UserHolder.getUser().getUid() + "获取店铺"+ rid + "评论"+commentList);
@@ -60,7 +59,7 @@ public class CommentServiceImpl implements ICommentService {
         }
         List<Comment> commentList = commentMapper.queryCommentListByRestId(rid);
         if(commentList == null) {
-            stringRedisTemplate.opsForValue().set(CACHE_COMMENTLIST_KEY+ ":" +rid,
+            stringRedisTemplate.opsForValue().set(CACHE_COMMENTLIST_KEY +rid,
                     CACHE_NULL,
                     CACHE_NULL_TTL,
                     TimeUnit.MINUTES);
@@ -74,7 +73,7 @@ public class CommentServiceImpl implements ICommentService {
                     comment.setImageList(imageList);
                     return null;
                 }).collect(Collectors.toList());
-        stringRedisTemplate.opsForValue().set(CACHE_COMMENTLIST_KEY+":"+rid,
+        stringRedisTemplate.opsForValue().set(CACHE_COMMENTLIST_KEY+rid,
                 JSONUtil.toJsonStr(commentList),
                 CACHE_COMMENTLIST_TTL,
                 TimeUnit.MINUTES);
@@ -134,9 +133,9 @@ public class CommentServiceImpl implements ICommentService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        String commentStr = stringRedisTemplate.opsForValue().get(CACHE_COMMENTLIST_KEY + ":" + restId);
+        String commentStr = stringRedisTemplate.opsForValue().get(CACHE_COMMENTLIST_KEY + restId);
         if (commentStr != null && commentStr != "") {
-            stringRedisTemplate.delete(CACHE_COMMENTLIST_KEY + ":" + restId);
+            stringRedisTemplate.delete(CACHE_COMMENTLIST_KEY + restId);
         }
         logger.info("用户"+useId+"向餐饮点"+restId+"添加一条评论"+comment);
         return Result.ok("添加评论成功");
@@ -145,7 +144,7 @@ public class CommentServiceImpl implements ICommentService {
     @Override
     public Result getSelfComment() {
         Long id = UserHolder.getUser().getUid();
-        String s = stringRedisTemplate.opsForValue().get(CACHE_COMMENTLIST_KEY + ":" + id);
+        String s = stringRedisTemplate.opsForValue().get(CACHE_COMMENTLIST_KEY + id);
         if (s != null && s != "" && !s.equals(CACHE_NULL)) {
             List<Comment> commentList = JSONUtil.toBean(s, List.class);
             logger.info("用户"+id+"获取个人评论" + s);
@@ -157,7 +156,7 @@ public class CommentServiceImpl implements ICommentService {
         }
         List<Comment> commentList = commentMapper.queryCommentListByUserId(id);
         if(commentList == null) {
-            stringRedisTemplate.opsForValue().set(CACHE_COMMENTLIST_KEY+ ":" +id,
+            stringRedisTemplate.opsForValue().set(CACHE_COMMENTLIST_KEY +id,
                     CACHE_NULL,
                     CACHE_NULL_TTL,
                     TimeUnit.MINUTES);
@@ -171,7 +170,7 @@ public class CommentServiceImpl implements ICommentService {
                     comment.setImageList(imageList);
                     return null;
                 }).collect(Collectors.toList());
-        stringRedisTemplate.opsForValue().set(CACHE_COMMENTLIST_KEY+":"+id,
+        stringRedisTemplate.opsForValue().set(CACHE_COMMENTLIST_KEY+id,
                 JSONUtil.toJsonStr(commentList),
                 CACHE_COMMENTLIST_TTL,
                 TimeUnit.MINUTES);
@@ -189,7 +188,7 @@ public class CommentServiceImpl implements ICommentService {
             throw new RuntimeException("删除评论失败，请重试");
         }
         logger.info("用户" + UserHolder.getUser().getUid()+ "删除一条评论" + cid);
-        stringRedisTemplate.delete(CACHE_COMMENTLIST_KEY+":"+UserHolder.getUser().getUid());
+        stringRedisTemplate.delete(CACHE_COMMENTLIST_KEY + UserHolder.getUser().getUid());
         return Result.ok("删除评论成功");
     }
 

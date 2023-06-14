@@ -142,3 +142,151 @@ Error starting ApplicationContext. To display the conditions report re-run your 
 2023-06-13 19:41:26.366 INFO  [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Starting ProtocolHandler ["http-nio-8082"]
 2023-06-13 19:41:26.381 INFO  [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.start:220 -Tomcat started on port(s): 8082 (http) with context path ''
 2023-06-13 19:41:26.391 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStarted:61 -Started CateringInfoSysApplication in 2.706 seconds (JVM running for 3.59)
+2023-06-13 20:15:40.134 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStarting:55 -Starting CateringInfoSysApplication using Java 1.8.0_282 on LAPTOP-VMKTV1BL with PID 2324 (D:\JavaProject\SpringBoot\CateringInfoSys\target\classes started by an in D:\JavaProject\SpringBoot\CateringInfoSys)
+2023-06-13 20:15:40.139 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStartupProfileInfo:634 -No active profile set, falling back to 1 default profile: "default"
+2023-06-13 20:15:40.791 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.multipleStoresDetected:262 -Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-06-13 20:15:40.792 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:132 -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-06-13 20:15:40.814 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:201 -Finished Spring Data repository scanning in 9 ms. Found 0 Redis repository interfaces.
+2023-06-13 20:15:41.589 INFO  [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.initialize:108 -Tomcat initialized with port(s): 8081 (http)
+2023-06-13 20:15:41.595 INFO  [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Initializing ProtocolHandler ["http-nio-8081"]
+2023-06-13 20:15:41.595 INFO  [main]org.apache.catalina.core.StandardService.log:173 -Starting service [Tomcat]
+2023-06-13 20:15:41.596 INFO  [main]org.apache.catalina.core.StandardEngine.log:173 -Starting Servlet engine: [Apache Tomcat/9.0.63]
+2023-06-13 20:15:41.679 INFO  [main]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring embedded WebApplicationContext
+2023-06-13 20:15:41.680 INFO  [main]o.s.b.w.s.context.ServletWebServerApplicationContext.prepareWebApplicationContext:292 -Root WebApplicationContext: initialization completed in 1487 ms
+2023-06-13 20:15:42.695 INFO  [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Starting ProtocolHandler ["http-nio-8081"]
+2023-06-13 20:15:42.711 INFO  [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.start:220 -Tomcat started on port(s): 8081 (http) with context path ''
+2023-06-13 20:15:42.718 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStarted:61 -Started CateringInfoSysApplication in 3.12 seconds (JVM running for 4.046)
+2023-06-13 20:31:42.745 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStarting:55 -Starting CateringInfoSysApplication using Java 1.8.0_282 on LAPTOP-VMKTV1BL with PID 4980 (D:\JavaProject\SpringBoot\CateringInfoSys\target\classes started by an in D:\JavaProject\SpringBoot\CateringInfoSys)
+2023-06-13 20:31:42.753 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStartupProfileInfo:634 -No active profile set, falling back to 1 default profile: "default"
+2023-06-13 20:31:44.367 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.multipleStoresDetected:262 -Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-06-13 20:31:44.370 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:132 -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-06-13 20:31:44.428 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:201 -Finished Spring Data repository scanning in 28 ms. Found 0 Redis repository interfaces.
+2023-06-13 20:31:45.492 INFO  [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.initialize:108 -Tomcat initialized with port(s): 8081 (http)
+2023-06-13 20:31:45.503 INFO  [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Initializing ProtocolHandler ["http-nio-8081"]
+2023-06-13 20:31:45.505 INFO  [main]org.apache.catalina.core.StandardService.log:173 -Starting service [Tomcat]
+2023-06-13 20:31:45.505 INFO  [main]org.apache.catalina.core.StandardEngine.log:173 -Starting Servlet engine: [Apache Tomcat/9.0.63]
+2023-06-13 20:31:45.650 INFO  [main]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring embedded WebApplicationContext
+2023-06-13 20:31:45.651 INFO  [main]o.s.b.w.s.context.ServletWebServerApplicationContext.prepareWebApplicationContext:292 -Root WebApplicationContext: initialization completed in 2795 ms
+2023-06-13 20:31:47.249 INFO  [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Starting ProtocolHandler ["http-nio-8081"]
+2023-06-13 20:31:47.271 INFO  [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.start:220 -Tomcat started on port(s): 8081 (http) with context path ''
+2023-06-13 20:31:47.292 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStarted:61 -Started CateringInfoSysApplication in 5.357 seconds (JVM running for 7.142)
+2023-06-13 20:36:54.727 INFO  [http-nio-8081-exec-1]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-06-13 20:36:54.728 INFO  [http-nio-8081-exec-1]org.springframework.web.servlet.DispatcherServlet.initServletBean:525 -Initializing Servlet 'dispatcherServlet'
+2023-06-13 20:36:54.730 INFO  [http-nio-8081-exec-1]org.springframework.web.servlet.DispatcherServlet.initServletBean:547 -Completed initialization in 2 ms
+2023-06-13 20:36:54.773 INFO  [http-nio-8081-exec-1]com.aks.cateringinfosys.controller.IndexController.index:22 -首页登陆
+2023-06-13 20:53:48.844 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStarting:55 -Starting CateringInfoSysApplication using Java 1.8.0_282 on LAPTOP-VMKTV1BL with PID 8636 (D:\JavaProject\SpringBoot\CateringInfoSys\target\classes started by an in D:\JavaProject\SpringBoot\CateringInfoSys)
+2023-06-13 20:53:48.850 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStartupProfileInfo:634 -No active profile set, falling back to 1 default profile: "default"
+2023-06-13 20:53:50.114 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.multipleStoresDetected:262 -Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-06-13 20:53:50.118 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:132 -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-06-13 20:53:50.172 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:201 -Finished Spring Data repository scanning in 25 ms. Found 0 Redis repository interfaces.
+2023-06-13 20:53:51.138 INFO  [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.initialize:108 -Tomcat initialized with port(s): 8081 (http)
+2023-06-13 20:53:51.151 INFO  [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Initializing ProtocolHandler ["http-nio-8081"]
+2023-06-13 20:53:51.152 INFO  [main]org.apache.catalina.core.StandardService.log:173 -Starting service [Tomcat]
+2023-06-13 20:53:51.152 INFO  [main]org.apache.catalina.core.StandardEngine.log:173 -Starting Servlet engine: [Apache Tomcat/9.0.63]
+2023-06-13 20:53:51.362 INFO  [main]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring embedded WebApplicationContext
+2023-06-13 20:53:51.363 INFO  [main]o.s.b.w.s.context.ServletWebServerApplicationContext.prepareWebApplicationContext:292 -Root WebApplicationContext: initialization completed in 2417 ms
+2023-06-13 20:53:53.139 INFO  [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Starting ProtocolHandler ["http-nio-8081"]
+2023-06-13 20:53:53.155 INFO  [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.start:220 -Tomcat started on port(s): 8081 (http) with context path ''
+2023-06-13 20:53:53.181 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStarted:61 -Started CateringInfoSysApplication in 5.045 seconds (JVM running for 6.432)
+2023-06-13 21:00:31.430 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStarting:55 -Starting CateringInfoSysApplication using Java 1.8.0_282 on LAPTOP-VMKTV1BL with PID 3944 (D:\JavaProject\SpringBoot\CateringInfoSys\target\classes started by an in D:\JavaProject\SpringBoot\CateringInfoSys)
+2023-06-13 21:00:31.437 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStartupProfileInfo:634 -No active profile set, falling back to 1 default profile: "default"
+2023-06-13 21:00:32.494 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.multipleStoresDetected:262 -Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-06-13 21:00:32.496 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:132 -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-06-13 21:00:32.530 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:201 -Finished Spring Data repository scanning in 16 ms. Found 0 Redis repository interfaces.
+2023-06-13 21:00:33.374 INFO  [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.initialize:108 -Tomcat initialized with port(s): 8081 (http)
+2023-06-13 21:00:33.383 INFO  [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Initializing ProtocolHandler ["http-nio-8081"]
+2023-06-13 21:00:33.384 INFO  [main]org.apache.catalina.core.StandardService.log:173 -Starting service [Tomcat]
+2023-06-13 21:00:33.384 INFO  [main]org.apache.catalina.core.StandardEngine.log:173 -Starting Servlet engine: [Apache Tomcat/9.0.63]
+2023-06-13 21:00:33.531 INFO  [main]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring embedded WebApplicationContext
+2023-06-13 21:00:33.532 INFO  [main]o.s.b.w.s.context.ServletWebServerApplicationContext.prepareWebApplicationContext:292 -Root WebApplicationContext: initialization completed in 2006 ms
+2023-06-13 21:00:35.075 INFO  [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Starting ProtocolHandler ["http-nio-8081"]
+2023-06-13 21:00:35.092 INFO  [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.start:220 -Tomcat started on port(s): 8081 (http) with context path ''
+2023-06-13 21:00:35.115 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStarted:61 -Started CateringInfoSysApplication in 4.329 seconds (JVM running for 5.716)
+2023-06-13 21:09:34.413 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStarting:55 -Starting CateringInfoSysApplication using Java 1.8.0_282 on LAPTOP-VMKTV1BL with PID 23604 (D:\JavaProject\SpringBoot\CateringInfoSys\target\classes started by an in D:\JavaProject\SpringBoot\CateringInfoSys)
+2023-06-13 21:09:34.420 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStartupProfileInfo:634 -No active profile set, falling back to 1 default profile: "default"
+2023-06-13 21:09:35.510 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.multipleStoresDetected:262 -Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-06-13 21:09:35.514 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:132 -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-06-13 21:09:35.560 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:201 -Finished Spring Data repository scanning in 17 ms. Found 0 Redis repository interfaces.
+2023-06-13 21:09:36.448 INFO  [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.initialize:108 -Tomcat initialized with port(s): 8081 (http)
+2023-06-13 21:09:36.457 INFO  [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Initializing ProtocolHandler ["http-nio-8081"]
+2023-06-13 21:09:36.458 INFO  [main]org.apache.catalina.core.StandardService.log:173 -Starting service [Tomcat]
+2023-06-13 21:09:36.459 INFO  [main]org.apache.catalina.core.StandardEngine.log:173 -Starting Servlet engine: [Apache Tomcat/9.0.63]
+2023-06-13 21:09:36.605 INFO  [main]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring embedded WebApplicationContext
+2023-06-13 21:09:36.605 INFO  [main]o.s.b.w.s.context.ServletWebServerApplicationContext.prepareWebApplicationContext:292 -Root WebApplicationContext: initialization completed in 2089 ms
+2023-06-13 21:09:38.157 INFO  [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Starting ProtocolHandler ["http-nio-8081"]
+2023-06-13 21:09:38.173 INFO  [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.start:220 -Tomcat started on port(s): 8081 (http) with context path ''
+2023-06-13 21:09:38.195 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStarted:61 -Started CateringInfoSysApplication in 4.412 seconds (JVM running for 5.887)
+2023-06-13 21:09:40.360 INFO  [http-nio-8081-exec-1]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-06-13 21:09:40.360 INFO  [http-nio-8081-exec-1]org.springframework.web.servlet.DispatcherServlet.initServletBean:525 -Initializing Servlet 'dispatcherServlet'
+2023-06-13 21:09:40.362 INFO  [http-nio-8081-exec-1]org.springframework.web.servlet.DispatcherServlet.initServletBean:547 -Completed initialization in 1 ms
+2023-06-13 21:09:40.395 INFO  [http-nio-8081-exec-1]com.aks.cateringinfosys.controller.IndexController.index:23 -首页登陆
+2023-06-13 21:13:35.187 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStarting:55 -Starting CateringInfoSysApplication using Java 1.8.0_282 on LAPTOP-VMKTV1BL with PID 20248 (D:\JavaProject\SpringBoot\CateringInfoSys\target\classes started by an in D:\JavaProject\SpringBoot\CateringInfoSys)
+2023-06-13 21:13:35.194 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStartupProfileInfo:634 -No active profile set, falling back to 1 default profile: "default"
+2023-06-13 21:13:36.216 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.multipleStoresDetected:262 -Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-06-13 21:13:36.218 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:132 -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-06-13 21:13:36.257 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:201 -Finished Spring Data repository scanning in 18 ms. Found 0 Redis repository interfaces.
+2023-06-13 21:13:37.192 INFO  [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.initialize:108 -Tomcat initialized with port(s): 8081 (http)
+2023-06-13 21:13:37.202 INFO  [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Initializing ProtocolHandler ["http-nio-8081"]
+2023-06-13 21:13:37.203 INFO  [main]org.apache.catalina.core.StandardService.log:173 -Starting service [Tomcat]
+2023-06-13 21:13:37.203 INFO  [main]org.apache.catalina.core.StandardEngine.log:173 -Starting Servlet engine: [Apache Tomcat/9.0.63]
+2023-06-13 21:13:37.343 INFO  [main]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring embedded WebApplicationContext
+2023-06-13 21:13:37.344 INFO  [main]o.s.b.w.s.context.ServletWebServerApplicationContext.prepareWebApplicationContext:292 -Root WebApplicationContext: initialization completed in 2058 ms
+2023-06-13 21:13:38.916 INFO  [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Starting ProtocolHandler ["http-nio-8081"]
+2023-06-13 21:13:38.933 INFO  [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.start:220 -Tomcat started on port(s): 8081 (http) with context path ''
+2023-06-13 21:13:38.954 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStarted:61 -Started CateringInfoSysApplication in 4.462 seconds (JVM running for 5.924)
+2023-06-13 21:16:03.030 INFO  [http-nio-8081-exec-1]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-06-13 21:16:03.030 INFO  [http-nio-8081-exec-1]org.springframework.web.servlet.DispatcherServlet.initServletBean:525 -Initializing Servlet 'dispatcherServlet'
+2023-06-13 21:16:03.032 INFO  [http-nio-8081-exec-1]org.springframework.web.servlet.DispatcherServlet.initServletBean:547 -Completed initialization in 1 ms
+2023-06-13 21:16:03.062 INFO  [http-nio-8081-exec-1]com.aks.cateringinfosys.controller.IndexController.index:23 -首页登陆
+2023-06-13 21:16:09.621 INFO  [http-nio-8081-exec-3]com.aks.cateringinfosys.controller.IndexController.index:23 -首页登陆
+2023-06-13 21:19:23.619 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStarting:55 -Starting CateringInfoSysApplication using Java 1.8.0_282 on LAPTOP-VMKTV1BL with PID 23056 (D:\JavaProject\SpringBoot\CateringInfoSys\target\classes started by an in D:\JavaProject\SpringBoot\CateringInfoSys)
+2023-06-13 21:19:23.625 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStartupProfileInfo:634 -No active profile set, falling back to 1 default profile: "default"
+2023-06-13 21:19:24.717 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.multipleStoresDetected:262 -Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-06-13 21:19:24.719 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:132 -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-06-13 21:19:24.754 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:201 -Finished Spring Data repository scanning in 16 ms. Found 0 Redis repository interfaces.
+2023-06-13 21:19:25.588 INFO  [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.initialize:108 -Tomcat initialized with port(s): 8081 (http)
+2023-06-13 21:19:25.599 INFO  [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Initializing ProtocolHandler ["http-nio-8081"]
+2023-06-13 21:19:25.600 INFO  [main]org.apache.catalina.core.StandardService.log:173 -Starting service [Tomcat]
+2023-06-13 21:19:25.600 INFO  [main]org.apache.catalina.core.StandardEngine.log:173 -Starting Servlet engine: [Apache Tomcat/9.0.63]
+2023-06-13 21:19:25.742 INFO  [main]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring embedded WebApplicationContext
+2023-06-13 21:19:25.743 INFO  [main]o.s.b.w.s.context.ServletWebServerApplicationContext.prepareWebApplicationContext:292 -Root WebApplicationContext: initialization completed in 2026 ms
+2023-06-13 21:19:27.274 INFO  [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Starting ProtocolHandler ["http-nio-8081"]
+2023-06-13 21:19:27.290 INFO  [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.start:220 -Tomcat started on port(s): 8081 (http) with context path ''
+2023-06-13 21:19:27.314 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStarted:61 -Started CateringInfoSysApplication in 4.362 seconds (JVM running for 5.777)
+2023-06-13 21:19:38.864 INFO  [http-nio-8081-exec-2]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-06-13 21:19:38.864 INFO  [http-nio-8081-exec-2]org.springframework.web.servlet.DispatcherServlet.initServletBean:525 -Initializing Servlet 'dispatcherServlet'
+2023-06-13 21:19:38.866 INFO  [http-nio-8081-exec-2]org.springframework.web.servlet.DispatcherServlet.initServletBean:547 -Completed initialization in 2 ms
+2023-06-13 21:24:34.126 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStarting:55 -Starting CateringInfoSysApplication using Java 1.8.0_282 on LAPTOP-VMKTV1BL with PID 18900 (D:\JavaProject\SpringBoot\CateringInfoSys\target\classes started by an in D:\JavaProject\SpringBoot\CateringInfoSys)
+2023-06-13 21:24:34.131 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStartupProfileInfo:634 -No active profile set, falling back to 1 default profile: "default"
+2023-06-13 21:24:35.307 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.multipleStoresDetected:262 -Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-06-13 21:24:35.310 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:132 -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-06-13 21:24:35.356 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:201 -Finished Spring Data repository scanning in 19 ms. Found 0 Redis repository interfaces.
+2023-06-13 21:24:36.281 INFO  [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.initialize:108 -Tomcat initialized with port(s): 8081 (http)
+2023-06-13 21:24:36.294 INFO  [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Initializing ProtocolHandler ["http-nio-8081"]
+2023-06-13 21:24:36.295 INFO  [main]org.apache.catalina.core.StandardService.log:173 -Starting service [Tomcat]
+2023-06-13 21:24:36.295 INFO  [main]org.apache.catalina.core.StandardEngine.log:173 -Starting Servlet engine: [Apache Tomcat/9.0.63]
+2023-06-13 21:24:36.479 INFO  [main]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring embedded WebApplicationContext
+2023-06-13 21:24:36.480 INFO  [main]o.s.b.w.s.context.ServletWebServerApplicationContext.prepareWebApplicationContext:292 -Root WebApplicationContext: initialization completed in 2248 ms
+2023-06-13 21:24:38.337 INFO  [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Starting ProtocolHandler ["http-nio-8081"]
+2023-06-13 21:24:38.354 INFO  [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.start:220 -Tomcat started on port(s): 8081 (http) with context path ''
+2023-06-13 21:24:38.381 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStarted:61 -Started CateringInfoSysApplication in 4.95 seconds (JVM running for 6.386)
+2023-06-13 21:24:41.180 INFO  [http-nio-8081-exec-1]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-06-13 21:24:41.181 INFO  [http-nio-8081-exec-1]org.springframework.web.servlet.DispatcherServlet.initServletBean:525 -Initializing Servlet 'dispatcherServlet'
+2023-06-13 21:24:41.184 INFO  [http-nio-8081-exec-1]org.springframework.web.servlet.DispatcherServlet.initServletBean:547 -Completed initialization in 3 ms
+2023-06-13 21:26:16.110 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStarting:55 -Starting CateringInfoSysApplication using Java 1.8.0_282 on LAPTOP-VMKTV1BL with PID 7032 (D:\JavaProject\SpringBoot\CateringInfoSys\target\classes started by an in D:\JavaProject\SpringBoot\CateringInfoSys)
+2023-06-13 21:26:16.116 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStartupProfileInfo:634 -No active profile set, falling back to 1 default profile: "default"
+2023-06-13 21:26:17.137 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.multipleStoresDetected:262 -Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-06-13 21:26:17.140 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:132 -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-06-13 21:26:17.181 INFO  [main]o.s.d.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:201 -Finished Spring Data repository scanning in 23 ms. Found 0 Redis repository interfaces.
+2023-06-13 21:26:18.015 INFO  [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.initialize:108 -Tomcat initialized with port(s): 8081 (http)
+2023-06-13 21:26:18.026 INFO  [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Initializing ProtocolHandler ["http-nio-8081"]
+2023-06-13 21:26:18.027 INFO  [main]org.apache.catalina.core.StandardService.log:173 -Starting service [Tomcat]
+2023-06-13 21:26:18.028 INFO  [main]org.apache.catalina.core.StandardEngine.log:173 -Starting Servlet engine: [Apache Tomcat/9.0.63]
+2023-06-13 21:26:18.196 INFO  [main]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring embedded WebApplicationContext
+2023-06-13 21:26:18.196 INFO  [main]o.s.b.w.s.context.ServletWebServerApplicationContext.prepareWebApplicationContext:292 -Root WebApplicationContext: initialization completed in 1987 ms
+2023-06-13 21:26:19.692 INFO  [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Starting ProtocolHandler ["http-nio-8081"]
+2023-06-13 21:26:19.708 INFO  [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.start:220 -Tomcat started on port(s): 8081 (http) with context path ''
+2023-06-13 21:26:19.725 INFO  [main]com.aks.cateringinfosys.CateringInfoSysApplication.logStarted:61 -Started CateringInfoSysApplication in 4.201 seconds (JVM running for 5.618)
+2023-06-13 21:26:29.414 INFO  [http-nio-8081-exec-2]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-06-13 21:26:29.415 INFO  [http-nio-8081-exec-2]org.springframework.web.servlet.DispatcherServlet.initServletBean:525 -Initializing Servlet 'dispatcherServlet'
+2023-06-13 21:26:29.416 INFO  [http-nio-8081-exec-2]org.springframework.web.servlet.DispatcherServlet.initServletBean:547 -Completed initialization in 1 ms

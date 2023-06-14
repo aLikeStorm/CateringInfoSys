@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8081
 spring:
   application:
     name: aks
@@ -10,13 +10,13 @@ spring:
       enabled: true
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@ip:SID
-    username: *
-    password: *
+    url: jdbc:oracle:thin:@121.199.167.96:1521:helowin
+    username: admin
+    password: admin
   redis:
-    host: ip
-    port: 端口
-    password: 密码rt
+    host: 121.199.167.96
+    port: 6379
+    password: aks123456
     lettuce:
       pool:
         max-active: 10
