@@ -147,7 +147,7 @@ public class CouponServiceImpl implements ICouponService {
                 address = city.getCityName();
             }
             couponDTOS.add(new CouponDTO(coupon.getCid(),
-                    restaurant.getRName(),
+                    restaurant.getRestName(),
                     coupon.getCDescribe(),
                     coupon.getCMoney(),
                     address,

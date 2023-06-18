@@ -40,8 +40,7 @@ public class RedisIdWorker {
     public long nextId() {
         //生成时间戳
         LocalDateTime nowTime = LocalDateTime.now();
-        long nowSecond = nowTime.toEpochSecond(ZoneOffset.UTC);
-        long timeStamp = nowSecond - BEGIN_TIMESTAMP;
+        long timeStamp = nowTime.toEpochSecond(ZoneOffset.UTC);
         return timeStamp;
     }
 }

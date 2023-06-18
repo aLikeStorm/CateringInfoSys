@@ -1,18 +1,26 @@
 package com.aks.cateringinfosys.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.aks.cateringinfosys.dto.Result;
+import com.aks.cateringinfosys.entry.City;
+import com.aks.cateringinfosys.entry.RestType;
 import com.aks.cateringinfosys.entry.Restaurant;
+import com.aks.cateringinfosys.mappers.CityMapper;
 import com.aks.cateringinfosys.mappers.ImageMapper;
 import com.aks.cateringinfosys.mappers.RestaurantMapper;
 import com.aks.cateringinfosys.service.IRestaurantService;
+import com.aks.cateringinfosys.utils.RedisIdWorker;
 import com.aks.cateringinfosys.utils.UserHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -31,20 +39,25 @@ import static com.aks.cateringinfosys.utils.RedisConstants.*;
 public class RestaurantServiceImpl implements IRestaurantService {
     public static Logger logger = LoggerFactory.getLogger(RestaurantServiceImpl.class);
     @Autowired
+    CityMapper cityMapper;
+    @Autowired
     RestaurantMapper restaurantMapper;
     @Autowired
     ImageMapper imageMapper;
     @Autowired
     StringRedisTemplate redisTemplate;
+    @Autowired
+    RedisIdWorker idWorker;
 
     @Override
-    public Result getRestaurantsFromCity(Integer cityCode) {
+    public Result getRestaurantsFromCity(String cityName) {
+        Integer cityCode = cityMapper.queryCityCodeByCityName(cityName);
         //todo 1. 首先查询redis获取
         String restStr = redisTemplate.opsForValue().get(CACHE_HOT_RESTAURANT_KEY + cityCode);
 
         // todo 2. 判断redis中有该城市餐馆的缓存
         if (restStr != null && restStr != "" && !restStr.equals(CACHE_NULL)) {
-            List<Restaurant> restList = JSONUtil.toBean(restStr, List.class);
+            List<Restaurant> restList = JSONUtil.toList(restStr, Restaurant.class);
             logger.info(UserHolder.getUser().getUid() + "查询城市"+cityCode + "获取餐馆列表" + restList);
             return Result.ok(restList);
         }
@@ -54,7 +67,7 @@ public class RestaurantServiceImpl implements IRestaurantService {
         }
 
         // todo 3. 没有缓存，查询数据库，获取
-        List<Restaurant> restList = restaurantMapper.queryRestByCityCode(cityCode);
+        List<Restaurant> restList = restaurantMapper.queryRestByAddres(cityName);
 
         // todo 4. 没有缓存，将该城市没有餐馆
         if (restList == null || restList.size() == 0) {
@@ -68,7 +81,7 @@ public class RestaurantServiceImpl implements IRestaurantService {
         }
         // todo 5. 查询餐馆的相关图片 将该城市的餐馆列表存入redis中缓存
         restList.stream().map(restaurant -> {
-            List<String> imageList = imageMapper.queryImageListByForeign(restaurant.getRid());
+            List<String> imageList = imageMapper.queryImageListByForeign(restaurant.getRestId());
             restaurant.setImageList(imageList);
 
             return null;
@@ -88,7 +101,7 @@ public class RestaurantServiceImpl implements IRestaurantService {
         List<Restaurant> restList = restaurantMapper.queryRestByName(cityCode, typeCode, rName);
         // todo 5. 查询餐馆的相关图片 将该城市的餐馆列表存入redis中缓存
         restList.stream().map(restaurant -> {
-            List<String> imageList = imageMapper.queryImageListByForeign(restaurant.getRid());
+            List<String> imageList = imageMapper.queryImageListByForeign(restaurant.getRestId());
             restaurant.setImageList(imageList);
 
             return null;
@@ -127,6 +140,50 @@ public class RestaurantServiceImpl implements IRestaurantService {
                 TimeUnit.MINUTES);
         logger.info(UserHolder.getUser().getUid() + "查询餐馆"+rid + "获取餐馆"+rest);
         return Result.ok(rest);
+    }
+
+    @Override
+    @Transactional
+    public Result addRest(Restaurant restaurant) {
+        String restAddress = restaurant.getRestAddress();
+
+        //获取城市code
+        String city = StrUtil.subBefore(restAddress, "市", false);
+        Integer length = city.length();
+        city = city.substring(length - 2,length);
+        Integer code = cityMapper.queryCityCodeByCityName(city);
+        restaurant.setRestCity(Long.valueOf(code));
+        restaurant.setRestId(idWorker.nextId());
+        restaurant.setRestLikeNum(0);
+        restaurant.setRestScore(1.00f);
+        restaurant.setCreateTime(LocalDateTime.now());
+        Integer integer = restaurantMapper.insertRestaurant(restaurant);
+        if (integer == 1) {
+            redisTemplate.delete(CACHE_RESTAURANT_KEY+code);
+            return Result.ok("添加餐饮点成功");
+        }
+        return Result.fail("添加餐饮点失败");
+    }
+
+    @Override
+    public Result getRestType() {
+        String typeStr = redisTemplate.opsForValue().get(CACHE_RESTAURANT_KEY + "type");
+        // todo 2. 判断redis中有该城市餐馆的缓存
+        if (typeStr != null && typeStr != "" && !typeStr.equals(CACHE_NULL)) {
+            List<RestType> typeList = JSONUtil.toList(typeStr,RestType.class);
+            return Result.ok(typeList);
+        }
+        if (CACHE_NULL.equals(typeStr)) {
+            return Result.fail("该城市没有餐馆!");
+        }
+        List<RestType> restTypes = restaurantMapper.queryType();
+        if (restTypes == null ) {
+            redisTemplate.opsForValue().set(CACHE_RESTAURANT_KEY + "type",CACHE_NULL,CACHE_NULL_TTL,TimeUnit.MINUTES);
+            return Result.fail("该城市没有餐馆!");
+        }
+        redisTemplate.opsForValue().set(CACHE_RESTAURANT_KEY + "type",JSONUtil.toJsonStr(restTypes),CACHE_RESTAURANT_TTL,TimeUnit.MINUTES);
+
+        return Result.ok(restTypes);
     }
 
 

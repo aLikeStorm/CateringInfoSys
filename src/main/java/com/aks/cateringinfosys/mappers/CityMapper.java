@@ -2,6 +2,7 @@ package com.aks.cateringinfosys.mappers;
 
 import com.aks.cateringinfosys.entry.City;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;
 
@@ -20,4 +21,5 @@ import java.util.List;
 public interface CityMapper {
     @Select("SELECT * FROM tb_city")
     List<City> queryCityList();
+    Integer queryCityCodeByCityName(@Param("cityName") String cityName);
 }

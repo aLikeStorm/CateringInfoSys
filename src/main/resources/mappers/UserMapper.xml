@@ -3,9 +3,42 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aks.cateringinfosys.mappers.UserMapper">
-    <insert id="inertUser"></insert>
-    <update id="updateUser"></update>
-    <select id="queryUserByUserName" resultType="java.lang.Long"></select>
-    <select id="queryUserByEmail" resultType="com.aks.cateringinfosys.entry.User"></select>
+    <insert id="inertUser" parameterType="com.aks.cateringinfosys.entry.User">
+        INSERT INTO TB_USER(userid, email, nickname, password, useraddress)
+        VALUES (#{userId},#{email},#{nickName},#{password},#{userAddress})
+    </insert>
+    <update id="updateUser">
+        UPDATE TB_USER
+        <set>
+            <if test="email != null and email != ''">
+                email=#{email},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                nickname=#{nickName},
+            </if>
+            <if test="password != null and password != ''">
+                password=#{password},
+            </if>
+            <if test="userAddress != null and userAddress != ''">
+                userAddress=#{userAddress},
+            </if>
+        </set>
+        WHERE userId=#{userId}
+
+    </update>
+    <select id="queryUserByUserName" resultType="com.aks.cateringinfosys.entry.User">
+    </select>
+    <select id="queryUserByEmail" resultType="com.aks.cateringinfosys.entry.User">
+        SELECT * FROM TB_USER WHERE EMAIL = #{email}
+    </select>
     <select id="queryLogin" resultType="com.aks.cateringinfosys.entry.User"></select>
+    <select id="queryUserList" resultType="com.aks.cateringinfosys.entry.User">
+        SELECT * FROM TB_USER
+            <where>
+                <if test="info != null and info != ''">
+                    NICKNAME like '%'||#{info}||'%' or EMAIL like '%'||#{info}||'%'
+                </if>
+            </where>
+
+    </select>
 </mapper>

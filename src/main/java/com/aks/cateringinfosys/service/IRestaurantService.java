@@ -1,6 +1,7 @@
 package com.aks.cateringinfosys.service;
 
 import com.aks.cateringinfosys.dto.Result;
+import com.aks.cateringinfosys.entry.Restaurant;
 
 /**
  * @author 安克松
@@ -11,9 +12,13 @@ import com.aks.cateringinfosys.dto.Result;
  * @description
  */
 public interface IRestaurantService {
-    Result getRestaurantsFromCity(Integer cityCode);
+    Result getRestaurantsFromCity(String cityName);
 
     Result getRestaurantListFromName(Integer cityCode, Integer typeCode, String rName);
 
     Result getRestaurantById(Long rid);
+
+    Result addRest(Restaurant restaurant);
+
+    Result getRestType();
 }

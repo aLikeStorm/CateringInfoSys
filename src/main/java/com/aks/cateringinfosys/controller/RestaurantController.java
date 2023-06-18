@@ -1,14 +1,17 @@
 package com.aks.cateringinfosys.controller;
 
 import com.aks.cateringinfosys.dto.Result;
+import com.aks.cateringinfosys.dto.UserDTO;
+import com.aks.cateringinfosys.entry.Restaurant;
 import com.aks.cateringinfosys.service.IRestaurantService;
+import com.aks.cateringinfosys.utils.SystemConstants;
+import com.aks.cateringinfosys.utils.UserHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import static com.aks.cateringinfosys.utils.SystemConstants.ADMINID;
 
 /**
  * @author 安克松
@@ -24,10 +27,22 @@ public class RestaurantController {
     Logger logger = LoggerFactory.getLogger(RestController.class);
     @Autowired
     IRestaurantService restaurantService;
-    @GetMapping("/{cityCode}")
-    public Result getRestaurantsFromCity(@PathVariable("cityCode")Integer cityCode){
-        return restaurantService.getRestaurantsFromCity(cityCode);
+    @GetMapping("/{cityName}")
+    public Result getRestaurantsFromCity(@PathVariable("cityName")String cityName){
+        return restaurantService.getRestaurantsFromCity(cityName);
     }
+    @GetMapping("/getRestType")
+    public Result getRestType() {
+        return restaurantService.getRestType();
+    }
+    @PostMapping("/add")
+    public Result addRest(@RequestBody Restaurant restaurant) {
+        if (!UserHolder.getUser().getUid().equals(ADMINID)) {
+            return Result.fail("权限不足");
+        }
+        return restaurantService.addRest(restaurant);
+    }
+
     @GetMapping("/{cityCode}/{typeCode}/rName")
     public Result getRestaurantListFromName(
             @PathVariable("cityCode") Integer cityCode,

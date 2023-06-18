@@ -7,10 +7,13 @@ import com.aks.cateringinfosys.dto.UserDTO;
 import com.aks.cateringinfosys.entry.User;
 import com.aks.cateringinfosys.service.IUserService;
 import com.aks.cateringinfosys.utils.RedisConstants;
+import com.aks.cateringinfosys.utils.SystemConstants;
 import com.aks.cateringinfosys.utils.UserHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
+
+import static com.aks.cateringinfosys.utils.SystemConstants.ADMINID;
 
 /**
  * @author 安克松
@@ -31,9 +34,20 @@ public class UseController {
     public Result getUser() {
         return Result.ok(UserHolder.getUser());
     }
+    @GetMapping("/getUserList/{info}/{currentPage}/{pageSize}")
+    public Result getUserList(@PathVariable("info")String info,
+                              @PathVariable("currentPage")Integer currentPage,
+                              @PathVariable("pageSize") Integer pageSize) {
+        return userService.getUserList(info,currentPage,pageSize);
+    }
     @PostMapping("/update")
-    public Result editUser(@RequestBody UserDTO userDTO) {
-        return userService.editUser(userDTO);
+    public Result editUser(@RequestBody User user) {
+
+        if (!user.getUserId().equals(UserHolder.getUser().getUid())
+                && !UserHolder.getUser().getUid().equals(ADMINID)){
+            return Result.fail("权限不足");
+        }
+        return userService.editUser(user);
     }
 
     @PostMapping("/login/admin")
@@ -42,8 +56,8 @@ public class UseController {
     }
 
     @PostMapping("/login/account")
-    public Result loginByUserName(@RequestBody LoginFormDTO loginFrom) {
-        return userService.loginByUserName(loginFrom);
+    public Result loginByPassword(@RequestBody LoginFormDTO loginFrom) {
+        return userService.loginByPassword(loginFrom);
     }
     @PostMapping("/login/email")
     public Result loginSendCode(@RequestBody String email) {
@@ -54,8 +68,17 @@ public class UseController {
         return userService.loginByEmail(loginEmailDTO);
     }
     @PostMapping("/register")
-    public Result register(User user) {
+    public Result register(@RequestBody User user) {
         return userService.register(user);
+    }
+    @GetMapping("/delete/{userId}")
+    public Result deleteUser(@PathVariable("userId")Long userId) {
+        if (!userId.equals(UserHolder.getUser().getUid())
+                && !UserHolder.getUser().getUid().equals(ADMINID)){
+            return Result.fail("权限不足");
+        }
+        return userService.deleteUser(userId);
+
     }
     @GetMapping("/logout")
     public Result logout() {

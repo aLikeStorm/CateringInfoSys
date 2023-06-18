@@ -2,6 +2,8 @@ package com.aks.cateringinfosys.mappers;
 
 import com.aks.cateringinfosys.entry.Comment;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.List;
 @Mapper
 public interface CommentMapper {
     //todo 根据餐饮店id查询评论列表
+    @Select("select * from tb_comment where uid =#{uid}")
     List<Comment> queryCommentListByRestId(Integer rid);
 
     //todo 查询点赞表获取这个评论的点赞表中该用户是否点赞

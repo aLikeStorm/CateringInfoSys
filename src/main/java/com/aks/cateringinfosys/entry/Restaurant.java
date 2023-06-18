@@ -19,11 +19,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Restaurant {
-    private Long rid;
-    private String rName;
-    private String rDescription;
-    private String type;
-    private String city;
-    private LocalDateTime rCreateTime;
+    private Long restId;
+    private String restName;
+    private Integer restType;
+    private String restDescription;
+    private Long restCity;
+    private String restAddress;
+    private Integer restLikeNum;
+    private Float restScore;
+    private LocalDateTime createTime;
     private List<String> imageList;
 }

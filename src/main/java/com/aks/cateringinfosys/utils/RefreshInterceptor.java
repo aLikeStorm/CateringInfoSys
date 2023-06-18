@@ -33,6 +33,7 @@ public class RefreshInterceptor implements HandlerInterceptor {
         // todo 获取token，token在请求头中
         String token = request.getHeader("authorization");
         if (token == null) {
+            UserHolder.saveUser(new UserDTO(0l,"游客","",""));
             return true;
         }
         String key = RedisConstants.LOGIN_USER_KEY+token;
@@ -41,6 +42,7 @@ public class RefreshInterceptor implements HandlerInterceptor {
         Map<Object, Object> map = stringRedisTemplate.opsForHash().entries(key);
         //3.判断用户是否存在，存在方向
         if (map == null){
+            UserHolder.saveUser(new UserDTO(0l,"游客","",""));
             return true;
         }
         //强转为一个不存密码等详细信息的UserDTO存入ThreadLocal线程域中

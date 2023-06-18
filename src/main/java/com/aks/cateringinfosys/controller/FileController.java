@@ -3,10 +3,7 @@ package com.aks.cateringinfosys.controller;
 import cn.hutool.core.util.StrUtil;
 import com.aks.cateringinfosys.dto.Result;
 import com.aks.cateringinfosys.utils.SystemConstants;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -26,7 +23,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/file")
 public class FileController {
-    @PostMapping("uploadImages")
+    @PostMapping("/uploadImages")
     public Result uploadImages(@RequestParam("images")MultipartFile[] images) throws IOException {
         ArrayList<String> imageList = new ArrayList<>();
         for (MultipartFile image : images) {

@@ -1,8 +1,10 @@
 package com.aks.cateringinfosys.mappers;
 
 import com.aks.cateringinfosys.entry.City;
+import com.aks.cateringinfosys.entry.RestType;
 import com.aks.cateringinfosys.entry.Restaurant;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,7 +21,7 @@ import java.util.List;
 @Mapper
 public interface RestaurantMapper {
     //todo 按照城市code查询评论数量在前20的餐馆
-    List<Restaurant> queryRestByCityCode(Integer cityCode);
+    List<Restaurant> queryRestByAddres(String address);
 
     //todo 根据城市code，餐馆类型，餐馆名模糊餐馆列表
     List<Restaurant> queryRestByName(Integer cityCode, Integer typeCode, String rName);
@@ -29,5 +31,10 @@ public interface RestaurantMapper {
 
     // 查询餐馆所在城市
     City queryRestAddress(Long rid);
+
+    Integer insertRestaurant(Restaurant restaurant);
+
+    @Select("SELECT * FROM TB_TYPE")
+    List<RestType> queryType();
 
 }

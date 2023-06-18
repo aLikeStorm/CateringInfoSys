@@ -15,9 +15,9 @@ import com.aks.cateringinfosys.entry.User;
  * @description
  */
 public interface IUserService {
-    Result editUser(UserDTO userDTO);
+    Result editUser(User user);
 
-    Result loginByUserName(LoginFormDTO loginFrom);
+    Result loginByPassword(LoginFormDTO loginFrom);
 
     Result sendCode(String email);
 
@@ -26,4 +26,8 @@ public interface IUserService {
     Result register(User user);
 
     Result loginAdmin(LoginFormDTO loginFormDTO);
+
+    Result getUserList(String info, Integer currentPage, Integer pageSize);
+
+    Result deleteUser(Long userId);
 }
