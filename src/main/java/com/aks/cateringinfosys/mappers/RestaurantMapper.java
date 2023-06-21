@@ -3,6 +3,7 @@ package com.aks.cateringinfosys.mappers;
 import com.aks.cateringinfosys.entry.City;
 import com.aks.cateringinfosys.entry.RestType;
 import com.aks.cateringinfosys.entry.Restaurant;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;
@@ -27,6 +28,7 @@ public interface RestaurantMapper {
     List<Restaurant> queryRestByName(Integer cityCode, Integer typeCode, String rName);
 
     // todo 根据餐馆id查询
+    @Select("SELECT * FROM TB_REST WHERE RESTID=#{rid}")
     Restaurant queryRestById(Long rid);
 
     // 查询餐馆所在城市
@@ -37,4 +39,11 @@ public interface RestaurantMapper {
     @Select("SELECT * FROM TB_TYPE")
     List<RestType> queryType();
 
+    @Delete("DELETE FROM TB_REST WHERE RESTID = #{restId}")
+    Integer deleteRestById(Long restId);
+
+    Integer updateRest(Restaurant restaurant);
+
+    @Select("SELECT TYPENAME FROM TB_TYPE WHERE TYPEID=#{restType}")
+    String queryTypeByTypeId(Integer restType);
 }

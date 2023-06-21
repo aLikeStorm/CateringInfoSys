@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aks.cateringinfosys.mappers.CouponMapper">
+    <insert id="insertCoupon">
+        INSERT INTO TB_COUPON
+        VALUES (#{couponId},#{couRestId},#{couponName},#{couponNum},#{couponAmount},#{beginTime},#{endTime},#{createTime})
+    </insert>
+    <update id="updateCoupon" parameterType="com.aks.cateringinfosys.entry.Coupon">
+        UPDATE TB_COUPON
+        <set>
+            <if test="couponName != null and couponName != ''">
+                COUPONNAME=#{couponName},
+            </if>
+            <if test="couponNum != null and couponNum >= 0">
+                COUPONNUM=#{couponNum},
+            </if>
+            <if test="couponAmount != null and couponAmount >= 0">
+                COUPONAMOUNT=#{couponAmount},
+            </if>
+            <if test="beginTime != null">
+                BEGINTIME=#{beginTime},
+            </if>
+            <if test="endTime != null">
+                ENDTIME=#{endTime},
+            </if>
+        </set>
+        <where>
+            COUPONID=#{couponId}
+        </where>
+
+    </update>
+
+    <select id="queryCouponList" resultType="com.aks.cateringinfosys.entry.Coupon">
+        SELECT TB_COUPON.* FROM TB_COUPON,TB_REST
+        <where>
+            <if test="restId != null">
+                COURESTID = #{restId} and
+            </if>
+            <if test="restName != null">
+                RESTNAME LIKE '%'||#{restName}||'%' AND
+            </if>
+            TB_COUPON.COURESTID = TB_REST.RESTID
+        </where>
+
+    </select>
+</mapper>

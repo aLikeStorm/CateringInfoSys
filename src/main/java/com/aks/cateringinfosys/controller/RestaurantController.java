@@ -42,14 +42,39 @@ public class RestaurantController {
         }
         return restaurantService.addRest(restaurant);
     }
-
-    @GetMapping("/{cityCode}/{typeCode}/rName")
+    @PostMapping("/delete")
+    public Result deleteRest(@RequestBody Long restId) {
+        if (UserHolder.getUser().getUid() != ADMINID) {
+            return Result.fail("权限不足");
+        }
+        return restaurantService.deleteRest(restId);
+    }
+    @PostMapping("/update")
+    public Result updateRest(@RequestBody Restaurant restaurant) {
+        if (UserHolder.getUser().getUid() != ADMINID) {
+            return Result.fail("权限不足");
+        }
+        return restaurantService.updateRest(restaurant);
+    }
+    @GetMapping("/findRestList/{cityCode}/{typeCode}/{rName}/{currentPage}/{pageSize}")
     public Result getRestaurantListFromName(
             @PathVariable("cityCode") Integer cityCode,
             @PathVariable("typeCode") Integer typeCode,
-            @PathVariable("rName") String rName
+            @PathVariable("rName") String rName,
+            @PathVariable("currentPage") Integer currentPage,
+            @PathVariable("pageSize") Integer pagSize
             ) {
-        return restaurantService.getRestaurantListFromName(cityCode,typeCode,rName);
+
+        if (cityCode == 1) {
+            cityCode = null;
+        }
+        if (typeCode == 1) {
+            typeCode = null;
+        }
+        if (rName.equals("all")) {
+            rName = null;
+        }
+        return restaurantService.getRestaurantListFromName(cityCode,typeCode,rName,currentPage,pagSize);
     }
     @GetMapping("/getDetail/{rid}")
     public Result getRestaurantById(@PathVariable("rid") Long rid) {

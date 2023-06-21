@@ -12,6 +12,7 @@ import lombok.Data;
  */
 @Data
 public class SnappedCouponDTO {
-    private Long rid;
-    private Long cid;
+    private Integer type;
+    private Long orderCouId;
+    private Long orderUserId;
 }

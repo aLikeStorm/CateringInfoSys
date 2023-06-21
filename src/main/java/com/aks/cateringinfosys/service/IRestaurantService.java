@@ -14,11 +14,16 @@ import com.aks.cateringinfosys.entry.Restaurant;
 public interface IRestaurantService {
     Result getRestaurantsFromCity(String cityName);
 
-    Result getRestaurantListFromName(Integer cityCode, Integer typeCode, String rName);
+    Result getRestaurantListFromName(Integer cityCode, Integer typeCode,
+                                     String rName,Integer currentPage,Integer pagSize);
 
     Result getRestaurantById(Long rid);
 
     Result addRest(Restaurant restaurant);
 
     Result getRestType();
+
+    Result deleteRest(Long restId);
+
+    Result updateRest(Restaurant restaurant);
 }

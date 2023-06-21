@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aks.cateringinfosys.mappers.FoodMapper">
+    <insert id="insertFood" >
+        INSERT INTO TB_FOOD VALUES (#{foodId},#{foodName},#{foodFormRest},#{createTime},#{foodPrice},#{foodDescription})
+    </insert>
+    <update id="updateFood" parameterType="com.aks.cateringinfosys.entry.Food">
+        UPDATE TB_FOOD
+        <set>
+            <if test="foodName != null and foodName != ''">
+                FOODNAME = #{foodName},
+            </if>
+            <if test="foodDescription != null and foodDescription != ''">
+                FOODDESCRIPTION = #{foodDescription},
+            </if>
+            <if test="foodPrice != null and foodPrice != ''">
+                FOODPRICE = #{foodPrice},
+            </if>
+        </set>
+        <where>
+            FOODID = #{foodId}
+        </where>
+
+    </update>
+
+    <select id="queryFoodList" resultType="com.aks.cateringinfosys.entry.Food">
+        SELECT TB_FOOD.* FROM TB_FOOD,TB_REST
+        <where>
+            <if test="restId != null">
+                FOODFORMREST = #{restId} and
+            </if>
+            <if test="restName != null">
+                RESTNAME LIKE '%'||#{restName}||'%' AND
+            </if>
+            TB_FOOD.FOODFORMREST = TB_REST.RESTID
+        </where>
+    </select>
+</mapper>

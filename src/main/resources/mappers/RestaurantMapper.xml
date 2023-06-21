@@ -9,8 +9,43 @@
             (#{restId},#{restName},#{restType},#{restDescription},
              #{restAddress},#{restLikeNum},#{restScore},#{createTime},#{restCity})
     </insert>
+    <update id="updateRest">
+        UPDATE TB_REST
+        <set>
+            <if test="restName != null and restName != ''">
+                RESTNAME = #{restName},
+            </if>
+            <if test="restType != null and restType != ''">
+                RESTTYPE = #{restType},
+            </if>
+            <if test="restDescription != null and restDescription != ''">
+                restDescription = #{restDescription},
+            </if>
+            <if test="restAddress != null and restAddress != ''">
+                restAddress = #{restAddress},
+            </if>
+         </set>
+        WHERE RESTID = #{restId}
+
+    </update>
 
     <select id="queryRestByAddres" resultType="com.aks.cateringinfosys.entry.Restaurant">
         SELECT * FROM TB_REST WHERE RESTADDRESS LIKE '%'||#{address}||'%'
+    </select>
+    <select id="queryRestByName" resultType="com.aks.cateringinfosys.entry.Restaurant">
+        SELECT * FROM TB_REST
+            <where>
+                <if test="cityCode != null ">
+                    AND RESTCITY = #{cityCode}
+                </if>
+                <if test="typeCode != null">
+                   AND RESTTYPE = #{typeCode}
+                </if>
+                <if test="rName != null and rName != ''">
+                    AND RESTNAME like '%'||#{rName}||'%'
+                </if>
+            </where>
+
+
     </select>
 </mapper>

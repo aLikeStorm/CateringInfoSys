@@ -18,12 +18,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Coupon {
-    private Long cid;
-    private Long rid; //店铺id
-    private String cDescribe;
-    private Float cMoney;
-    private Integer cNumber;
-    private LocalDateTime cStartDate;
-    private LocalDateTime cEndDate;
+    private Long couponId;
+    private Long couRestId; //店铺id
+    private String couponName;
+    private Float couponAmount;
+    private Integer couponNum;
+    private Integer couponRemainingNum;
+    private LocalDateTime beginTime;
+    private LocalDateTime endTime;
+    private LocalDateTime createTime;
 
 }

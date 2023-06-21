@@ -37,10 +37,10 @@ public class RedisIdWorker {
      * @param
      * @return
      */
-    public long nextId() {
+    public Long nextId() {
         //生成时间戳
         LocalDateTime nowTime = LocalDateTime.now();
-        long timeStamp = nowTime.toEpochSecond(ZoneOffset.UTC);
+        Long timeStamp = nowTime.toEpochSecond(ZoneOffset.UTC);
         return timeStamp;
     }
 }

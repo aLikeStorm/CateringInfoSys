@@ -10,7 +10,10 @@ import com.aks.cateringinfosys.entry.Restaurant;
 import com.aks.cateringinfosys.mappers.CouponMapper;
 import com.aks.cateringinfosys.mappers.RestaurantMapper;
 import com.aks.cateringinfosys.service.ICouponService;
+import com.aks.cateringinfosys.utils.RedisIdWorker;
 import com.aks.cateringinfosys.utils.UserHolder;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,31 +46,41 @@ public class CouponServiceImpl implements ICouponService {
     RestaurantMapper restaurantMapper;
     @Autowired
     StringRedisTemplate redisTemplate;
+    @Autowired
+    RedisIdWorker idWorker;
     @Override
-    public Result getRestCoupon(Long rid) {
-        String couponStr = redisTemplate.opsForValue().get(CACHE_COUPON_KEY + rid);
-        if (couponStr != null && couponStr != "" && !CACHE_NULL.equals(couponStr)){
-            List<Coupon> list = JSONUtil.toBean(couponStr, List.class);
-            logger.info(UserHolder.getUser().getUid() + "查询店铺"+rid+"优惠卷获得"+list);
-            return Result.ok(list);
+    public Result getRestCoupon(Long restId,String restName,Integer currentPage,Integer pageSize) {
+        if (restId != null){
+            String couponStr = redisTemplate.opsForValue().get(CACHE_COUPON_KEY + restId);
+            if (couponStr != null && couponStr != "" && !CACHE_NULL.equals(couponStr)){
+                List<Coupon> list = JSONUtil.toBean(couponStr, List.class);
+                logger.info(UserHolder.getUser().getUid() + "查询店铺"+restId+"优惠卷获得"+list);
+                return Result.ok(list);
+            }
+            if (CACHE_NULL.equals(couponStr)) {
+                logger.info(UserHolder.getUser().getUid() + "查询店铺"+restId+"优惠卷为空");
+                return Result.fail("店铺没有优惠券");
+            }
         }
-        if (CACHE_NULL.equals(couponStr)) {
-            logger.info(UserHolder.getUser().getUid() + "查询店铺"+rid+"优惠卷为空");
-            return Result.fail("店铺没有优惠券");
-        }
-        List<Coupon> couponList = couponMapper.queryCouponList(rid);
+        PageHelper.startPage(currentPage,pageSize);
+        List<Coupon> couponList = couponMapper.queryCouponList(restId,restName);
+        PageInfo<Coupon> couponPageInfo = new PageInfo<>(couponList);
+        couponList = couponPageInfo.getList();
         if (couponList == null) {
-            redisTemplate.opsForValue().set(CACHE_COUPON_KEY + rid,
-                    CACHE_NULL,CACHE_NULL_TTL,
-                    TimeUnit.MINUTES);
-            logger.info(UserHolder.getUser().getUid() + "查询店铺"+rid+"优惠卷为空");
+            if (restId != null){
+                redisTemplate.opsForValue().set(CACHE_COUPON_KEY + restId,
+                        CACHE_NULL,CACHE_NULL_TTL,
+                        TimeUnit.MINUTES);
+            }
+            logger.info(UserHolder.getUser().getUid() + "查询店铺优惠卷为空");
             return Result.fail("店铺没有优惠券");
         }
-        redisTemplate.opsForValue().set(CACHE_COUPON_KEY + rid,
+        restId = couponList.get(0).getCouRestId();
+        redisTemplate.opsForValue().set(CACHE_COUPON_KEY + restId,
                 JSONUtil.toJsonStr(couponList),
                 CACHE_COUPON_TTL,
                 TimeUnit.MINUTES);
-        logger.info(UserHolder.getUser().getUid() + "查询店铺"+rid+"优惠卷获得"+couponList);
+        logger.info(UserHolder.getUser().getUid() + "查询店铺"+restId+"优惠卷获得"+couponList);
         return Result.ok(couponList);
     }
 
@@ -95,8 +108,8 @@ public class CouponServiceImpl implements ICouponService {
             logger.info(UserHolder.getUser().getUid() + "查询优惠卷不存在");
             return Result.fail("优惠券已经消失啦");
         }
-        LocalDateTime cEndDate = coupon.getCEndDate();
-        LocalDateTime cStartDate = coupon.getCStartDate();
+        LocalDateTime cEndDate = coupon.getEndTime();
+        LocalDateTime cStartDate = coupon.getBeginTime();
         // 活动已经截止
         if (cEndDate.isBefore(LocalDateTime.now())) {
             return Result.fail("优惠卷已经过期");
@@ -104,7 +117,7 @@ public class CouponServiceImpl implements ICouponService {
         if (cStartDate.isAfter(LocalDateTime.now())) {
             return Result.fail("活动已经截止");
         }
-        if (coupon.getCNumber() <= 0) {
+        if (coupon.getCouponId() <= 0) {
             return Result.fail("优惠卷已经抢光啦");
         }
         // todo 一人一张优惠卷一把锁
@@ -138,23 +151,76 @@ public class CouponServiceImpl implements ICouponService {
         }
         ArrayList<CouponDTO> couponDTOS = new ArrayList<>();
         coupons.stream().forEach(coupon -> {
-            City city = restaurantMapper.queryRestAddress(coupon.getRid());
-            Restaurant restaurant = restaurantMapper.queryRestById(coupon.getRid());
+            City city = restaurantMapper.queryRestAddress(coupon.getCouRestId());
+            Restaurant restaurant = restaurantMapper.queryRestById(coupon.getCouRestId());
             String address = null;
             if (! city.getCityName().equals(city.getProvinceName())) {
                 address = city.getProvinceName() + " " +city.getCityName();
             }else {
                 address = city.getCityName();
             }
-            couponDTOS.add(new CouponDTO(coupon.getCid(),
-                    restaurant.getRestName(),
-                    coupon.getCDescribe(),
-                    coupon.getCMoney(),
-                    address,
-                    coupon.getCStartDate(),
-                    coupon.getCEndDate()));
         });
-        return Result.ok(couponDTOS);
+        return Result.ok("couponDTOS");
+    }
+
+    @Override
+    public Result updateCoupon(Coupon coupon) {
+        if (coupon.getCouponId() == null
+                || coupon.getCouRestId() == null
+                || coupon.getBeginTime().isAfter(coupon.getEndTime())
+                || coupon.getCouponAmount() == null
+                || coupon.getCouponAmount() <= 0
+                || coupon.getCouponNum() == null
+                || coupon.getCouponNum() <= 0
+        ){
+            return Result.fail("优惠卷信息错误");
+        }
+
+        Integer flag = couponMapper.updateCoupon(coupon);
+        if (flag != 1) {
+            return Result.fail("修改优惠卷信息失败");
+        }
+        Long couRestId = coupon.getCouRestId();
+        redisTemplate.delete(CACHE_COUPON_KEY+couRestId);
+        return Result.ok("修改优惠卷信息成功");
+    }
+
+    @Override
+    public Result addCoupon(Coupon coupon) {
+        if (coupon.getCouRestId() == null) {
+            return Result.fail("优惠卷没有对应的餐饮店ID");
+        }
+        if (coupon.getCouponNum() == null ||
+        coupon.getCouponNum() <= 0 ||
+        coupon.getCouponAmount() == null||
+        coupon.getCouponAmount() <= 0){
+            return Result.fail("优惠卷数量或优惠卷金额错误");
+        }
+        if (coupon.getBeginTime().isAfter(coupon.getEndTime())) {
+            return Result.fail("优惠卷活动开启时间不能晚于活动截止时间");
+        }
+        coupon.setCreateTime(LocalDateTime.now());
+        coupon.setCouponId(idWorker.nextId());
+        Integer flag = couponMapper.insertCoupon(coupon);
+        if (flag != 1) {
+            return Result.fail("添加优惠卷失败");
+        }
+        redisTemplate.delete(CACHE_COUPON_KEY+coupon.getCouRestId());
+        return Result.ok("添加优惠卷成功");
+    }
+
+    @Override
+    public Result deleteCoupon(Long couponId) {
+        Coupon coupon = couponMapper.queryCouponByCid(couponId);
+        if (coupon == null){
+            return Result.fail("优惠卷不存在啦");
+        }
+        Integer flag = couponMapper.deleteCouponById(couponId);
+        if (flag != 0) {
+            return Result.fail("删除优惠卷失败");
+        }
+        redisTemplate.delete(CACHE_COUPON_KEY+coupon.getCouRestId());
+        return Result.ok("删除优惠卷成功");
     }
 
     String value = Thread.currentThread().getName() + "正在抢该优惠券";

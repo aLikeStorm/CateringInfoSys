@@ -1,7 +1,10 @@
 package com.aks.cateringinfosys.mappers;
 
 import com.aks.cateringinfosys.entry.Coupon;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,8 +21,9 @@ import java.util.List;
 @Mapper
 public interface CouponMapper {
     // todo 获取指定店铺的优惠卷
-    List<Coupon> queryCouponList(Long rid);
+    List<Coupon> queryCouponList(Long restId,String restName);
     //todo 根据优惠卷id获取优惠卷
+    @Select("SELECT * FROM TB_COUPON WHERE COUPONID = #{cid}")
     Coupon queryCouponByCid(Long cid);
 
     // todo 插入优惠卷订单
@@ -30,4 +34,13 @@ public interface CouponMapper {
 
     // todo 通过个人id查询自己拥有的优惠券
     List<Coupon> queryCouponByUid(Long uid);
+
+    Integer updateCoupon(Coupon coupon);
+
+    Integer insertCoupon(Coupon coupon);
+    @Delete("DELETE FROM TB_COUPON WHERE COUPONID=#{couponId}")
+    Integer deleteCouponById(Long couponId);
+
+    @Update("UPDATE TB_COUPON SET COUPONREMAININGNUM = COUPONREMAININGNUM - 1 WHERE COUPONREMAININGNUM > 0")
+    Boolean subtractCouponNum();
 }

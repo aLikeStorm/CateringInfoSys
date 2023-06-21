@@ -2,6 +2,7 @@ package com.aks.cateringinfosys.service;
 
 import com.aks.cateringinfosys.dto.Result;
 import com.aks.cateringinfosys.dto.SnappedCouponDTO;
+import com.aks.cateringinfosys.entry.Coupon;
 import com.aks.cateringinfosys.service.impl.CouponServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +17,15 @@ import org.springframework.stereotype.Service;
  * @description
  */
 public interface ICouponService {
-    Result getRestCoupon(Long rid);
+    Result getRestCoupon(Long restId,String restName,Integer currentPage,Integer pageSize);
 
     Result snappedCoupon(Long cid);
 
     Result getMyCoupons();
+
+    Result updateCoupon(Coupon coupon);
+
+    Result addCoupon(Coupon coupon);
+
+    Result deleteCoupon(Long couponId);
 }
