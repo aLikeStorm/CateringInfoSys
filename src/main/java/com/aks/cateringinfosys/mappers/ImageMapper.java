@@ -27,4 +27,7 @@ public interface ImageMapper {
 
     @Select("DELETE FROM TB_IMAGE WHERE FOREIGNID = #{foreign}")
     void deleteByForeign(Long foreign);
+
+    @Select("SELECT COUNT(IMAGEID) FROM TB_IMAGE WHERE IMAGENAME=#{fileName}")
+    Integer countImageByName(@Param("fileName") String fileName);
 }

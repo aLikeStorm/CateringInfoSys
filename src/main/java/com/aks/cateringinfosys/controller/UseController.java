@@ -25,6 +25,7 @@ import static com.aks.cateringinfosys.utils.SystemConstants.ADMINID;
  */
 @RestController
 @RequestMapping("/user")
+@CrossOrigin //配置跨域请求
 public class UseController {
     @Autowired
     IUserService userService;
@@ -32,7 +33,8 @@ public class UseController {
     StringRedisTemplate redisTemplate;
     @GetMapping
     public Result getUser() {
-        return Result.ok(UserHolder.getUser());
+        UserDTO user = UserHolder.getUser();
+        return Result.ok(user);
     }
     @GetMapping("/getUserList/{info}/{currentPage}/{pageSize}")
     public Result getUserList(@PathVariable("info")String info,

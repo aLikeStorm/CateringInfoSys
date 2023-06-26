@@ -35,6 +35,8 @@ import static com.aks.cateringinfosys.utils.RedisConstants.*;
  * @classname RestaurantServiceImpl
  * @description
  */
+
+
 @Service
 public class RestaurantServiceImpl implements IRestaurantService {
     public static Logger logger = LoggerFactory.getLogger(RestaurantServiceImpl.class);
@@ -109,7 +111,6 @@ public class RestaurantServiceImpl implements IRestaurantService {
         restList.stream().map(restaurant -> {
             List<String> imageList = imageMapper.queryImageListByForeign(restaurant.getRestId());
             restaurant.setImageList(imageList);
-
             return null;
         }).collect(Collectors.toList());
         logger.info(UserHolder.getUser().getUid() + "查询城市"+cityCode +"类型"+typeCode+"模糊名" + rName+ "获取餐馆列表"+restList);
@@ -207,6 +208,7 @@ public class RestaurantServiceImpl implements IRestaurantService {
     }
 
     @Override
+    @Transactional
     public Result updateRest(Restaurant restaurant) {
         Integer flag = restaurantMapper.updateRest(restaurant);
         if (flag != 1) {
@@ -223,6 +225,20 @@ public class RestaurantServiceImpl implements IRestaurantService {
         }
         redisTemplate.delete(CACHE_RESTAURANT_KEY+restaurant.getRestId());
         return Result.ok("修改成功");
+    }
+
+    @Override
+    @Transactional
+    public Result likeRestaurant(Long restId) {
+        if (UserHolder.getUser().getUid().equals(0l)){
+            return Result.fail("未登陆");
+        }
+        boolean flag = restaurantMapper.addLike(restId);
+        if (flag) {
+            redisTemplate.delete(CACHE_RESTAURANT_KEY+restId);
+            return Result.ok("点赞成功 ");
+        }
+        return Result.fail("点赞失败");
     }
 
 

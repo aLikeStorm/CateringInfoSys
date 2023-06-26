@@ -26,4 +26,6 @@ public interface IRestaurantService {
     Result deleteRest(Long restId);
 
     Result updateRest(Restaurant restaurant);
+
+    Result likeRestaurant(Long restId);
 }

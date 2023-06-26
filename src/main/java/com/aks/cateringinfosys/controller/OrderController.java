@@ -21,6 +21,7 @@ import static com.aks.cateringinfosys.utils.SystemConstants.ADMINID;
  */
 @RestController
 @RequestMapping("/order")
+@CrossOrigin
 public class OrderController {
     @Autowired
     IOrderService iOrderService;

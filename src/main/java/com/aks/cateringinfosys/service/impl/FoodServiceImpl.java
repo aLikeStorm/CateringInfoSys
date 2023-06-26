@@ -46,13 +46,15 @@ public class FoodServiceImpl implements IFoodService {
     RedisIdWorker idWorker;
     @Override
     public Result getFoodList(Long restId, String restName,Integer currentPage,Integer pageSize) {
+        String key = String.valueOf(currentPage << 10 + pageSize);
         if (restId != null) {
-            String foodStr = redisTemplate.opsForValue().get(CACHE_FOOD_KEY + restId);
-            if (foodStr != null && foodStr != "" && foodStr.equals(CACHE_NULL)) {
+
+            String foodStr = (String) redisTemplate.opsForHash().get(CACHE_FOOD_KEY + restId,key);
+            if (foodStr != null && foodStr != "" && !CACHE_NULL.equals(foodStr)) {
                 List<Food> foods = JSONUtil.toList(foodStr, Food.class);
                 return Result.ok(foods);
             }
-            if (foodStr != null && foodStr.equals(CACHE_NULL)) {
+            if (CACHE_NULL.equals(foodStr)) {
                 return Result.fail("该店铺还没有食物哦");
             }
         }
@@ -62,7 +64,8 @@ public class FoodServiceImpl implements IFoodService {
         foodList = foodPageInfo.getList();
         if (foodList == null ||foodList.size() == 0) {
             if (restId != null ){
-                redisTemplate.opsForValue().set(CACHE_FOOD_KEY+restId,CACHE_NULL,CACHE_NULL_TTL,TimeUnit.MINUTES);
+                redisTemplate.opsForHash().put(CACHE_FOOD_KEY+restId,key,CACHE_NULL);
+                redisTemplate.expire(CACHE_FOOD_KEY+restId,CACHE_NULL_TTL,TimeUnit.MINUTES);
             }
             return Result.fail("该店铺还没有食物哦");
         }
@@ -71,13 +74,14 @@ public class FoodServiceImpl implements IFoodService {
              food.setImageList(imageListByForeign);
              return food;
          }).collect(Collectors.toList());
-        redisTemplate.opsForValue().set(CACHE_FOOD_KEY+foodList.get(0).getFoodFormRest(),
-                JSONUtil.toJsonStr(foodList),
-                CACHE_FOOD_TTL, TimeUnit.MINUTES);
+        redisTemplate.opsForHash().put(CACHE_FOOD_KEY+foodList.get(0).getFoodFormRest(),key,
+                JSONUtil.toJsonStr(foodList));
+        redisTemplate.expire(CACHE_FOOD_KEY+restId,CACHE_NULL_TTL,TimeUnit.MINUTES);
         return Result.ok(foodList,foodPageInfo.getTotal());
     }
 
     @Override
+    @Transactional
     public Result addFood(Food food) {
         food.setCreateTime(LocalDateTime.now());
         Long foodId = idWorker.nextId();
@@ -96,6 +100,7 @@ public class FoodServiceImpl implements IFoodService {
     }
 
     @Override
+    @Transactional
     public Result updateFood(Food food) {
         List<String> imageList = food.getImageList();
         Long foodId = food.getFoodId();

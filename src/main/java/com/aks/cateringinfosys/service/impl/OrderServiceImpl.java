@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -59,11 +60,12 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public Result getOrderList(Integer type, Long id,Integer currentPage,Integer pageSize) {
 
-        String orderStr = redisTemplate.opsForValue().get(CACHE_ORDER_KEY+id);
-        if (orderStr != null && orderStr.equals(CACHE_NULL)){
+        String key = String.valueOf(currentPage << 10 + pageSize);
+        String orderStr = (String) redisTemplate.opsForHash().get(CACHE_ORDER_KEY+id,key);
+        if (CACHE_NULL.equals(orderStr)){
             return Result.fail("查询Id的订单数为空");
         }
-        if (orderStr != null &&!orderStr.equals(CACHE_NULL)) {
+        if (orderStr != null && !CACHE_NULL.equals(orderStr)) {
             List<Order> orders = JSONUtil.toList(orderStr, Order.class);
             return Result.ok(orders);
         }
@@ -89,14 +91,17 @@ public class OrderServiceImpl implements IOrderService {
             return Result.ok("应该根据用户id或者店铺id查询订单");
         }
         if (orderList == null || orderList.size() == 0){
-            redisTemplate.opsForValue().set(CACHE_ORDER_KEY+id,CACHE_NULL,CACHE_NULL_TTL, TimeUnit.MINUTES);
+            redisTemplate.opsForHash().put(CACHE_ORDER_KEY+id,key,CACHE_NULL);
+            redisTemplate.expire(CACHE_ORDER_KEY+id,CACHE_NULL_TTL,TimeUnit.MINUTES);
             return Result.fail("你查询的信息订单为空");
         }
-        redisTemplate.opsForValue().set(CACHE_ORDER_KEY+id, JSONUtil.toJsonStr(orderList),CACHE_ORDER_TTL, TimeUnit.MINUTES);
+        redisTemplate.opsForHash().put(CACHE_ORDER_KEY+id, key,JSONUtil.toJsonStr(orderList));
+        redisTemplate.expire(CACHE_ORDER_KEY+id,CACHE_ORDER_TTL, TimeUnit.MINUTES);
         return Result.ok(orderList,orderPageInfo.getTotal());
     }
 
     @Override
+    @Transactional
     public Result snappedCoupon(SnappedCouponDTO snappedCouponDTO) {
         // todo 先查询订单表中是否该用户已经对该优惠卷下单
         if (snappedCouponDTO.getType() == 1) {
@@ -143,7 +148,7 @@ public class OrderServiceImpl implements IOrderService {
             // todo 优惠卷数量建议
             Boolean bool = couponMapper.subtractCouponNum();
             Integer flag = orderMapper.insertOrder(order1);
-            if (flag != 1 || bool) {
+            if (flag != 1 || !bool) {
                 throw new RuntimeException("抢购优惠卷失败");
             }
             redisTemplate.delete(CACHE_ORDER_KEY+coupon.getCouRestId());
@@ -178,6 +183,7 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
+    @Transactional
     public Result deleteOrder(Long orderId) {
         Order order = orderMapper.queryOrderByOrderId(orderId);
         Coupon coupon = couponMapper.queryCouponByCid(order.getOrderCouId());

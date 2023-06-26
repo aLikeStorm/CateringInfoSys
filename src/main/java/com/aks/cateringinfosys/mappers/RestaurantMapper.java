@@ -6,6 +6,7 @@ import com.aks.cateringinfosys.entry.Restaurant;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -46,4 +47,7 @@ public interface RestaurantMapper {
 
     @Select("SELECT TYPENAME FROM TB_TYPE WHERE TYPEID=#{restType}")
     String queryTypeByTypeId(Integer restType);
+    @Update("UPDATE TB_REST SET RESTLIKENUM = RESTLIKENUM+1 WHERE RESTID=#{restId}")
+    boolean addLike(Long restId);
+
 }

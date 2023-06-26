@@ -43,4 +43,7 @@ public interface UserMapper {
 
     @Delete("DELETE FROM TB_USER WHERE USERID = #{userId}")
     Integer deleteUserById(Long userId);
+
+    @Select("SELECT NICKNAME FROM TB_USER WHERE USERID=#{uid}")
+    String queryNameByUid(Long uid);
 }

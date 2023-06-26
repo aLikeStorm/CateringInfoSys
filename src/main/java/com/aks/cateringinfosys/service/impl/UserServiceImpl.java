@@ -85,7 +85,7 @@ public class UserServiceImpl implements IUserService {
         // todo 在类型转换时，不管什么类型都转化为字符串类型
         HashMap<String, Object> userMap = new HashMap<>();
         userMap.put("uid",userDTO.getUid().toString());
-        userMap.put("username",userDTO.getNickName());
+        userMap.put("nickName",userDTO.getNickName());
         userMap.put("email",userDTO.getEmail());
         userMap.put("userAddress",userDTO.getAddress());
         String key = RedisConstants.LOGIN_USER_KEY+token;
@@ -204,6 +204,13 @@ public class UserServiceImpl implements IUserService {
         return Result.ok(token);
     }
 
+    /**
+     * 用户信息存储在redis中并不安全，因为用户的信息一般是管理员能够查看，并不会有很大的数据访问量
+     * @param info
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
     @Override
     public Result getUserList(String info, Integer currentPage, Integer pageSize) {
         if (UserHolder.getUser().getUid() != ADMINID) {

@@ -23,10 +23,16 @@ import static com.aks.cateringinfosys.utils.SystemConstants.ADMINID;
  */
 @RestController
 @RequestMapping("/restaurants")
+@CrossOrigin
 public class RestaurantController {
     Logger logger = LoggerFactory.getLogger(RestController.class);
     @Autowired
     IRestaurantService restaurantService;
+    @GetMapping("/like/{restId}")
+    public Result likeRestaurant(@PathVariable("restId")Long restId) {
+        return restaurantService.likeRestaurant(restId);
+    }
+
     @GetMapping("/{cityName}")
     public Result getRestaurantsFromCity(@PathVariable("cityName")String cityName){
         return restaurantService.getRestaurantsFromCity(cityName);

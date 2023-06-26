@@ -23,7 +23,8 @@ public class Comment {
     private String comment; // 评论文字部分
     private LocalDateTime createTime; // 评论时间
     private List<String> imageList; //评论的图片文件列表
+    private String nickName;
     private Long rid; //评论的店铺id
     private Long uid; // 评论用户
-    private Integer like; // 点赞人数
+    private Float commentScore; // 点赞人数
 }

@@ -1,10 +1,12 @@
 package com.aks.cateringinfosys.controller;
 
+import com.aks.cateringinfosys.dto.Result;
+import com.aks.cateringinfosys.entry.City;
+import com.aks.cateringinfosys.mappers.CityMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author 安克松
@@ -16,11 +18,17 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/get")
+@CrossOrigin
 public class IndexController {
     Logger logger = LoggerFactory.getLogger(IndexController.class);
-    @GetMapping("/index")
-    public String index() {
-        logger.info("首页登陆");
-        return "Hello World";
+    @Autowired
+    CityMapper cityMapper;
+    @GetMapping("/getCity/{cityName}")
+    public Result getCityByCityName(@PathVariable("cityName")String cityName) {
+        City city = cityMapper.queryCityByCityName(cityName);
+        if (city == null ) {
+            return Result.fail("查询城市信息为空");
+        }
+        return Result.ok(city);
     }
 }

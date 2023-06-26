@@ -7,4 +7,7 @@
     <select id="queryCityCodeByCityName" resultType="java.lang.Integer">
         SELECT CITYCODE FROM TB_CITY WHERE CITYNAME LIKE '%'||#{cityName}||'%' AND ROWNUM = 1
     </select>
+    <select id="queryCityByCityName" resultType="com.aks.cateringinfosys.entry.City">
+        SELECT * FROM TB_CITY WHERE CITYNAME LIKE '%'||#{cityName}||'%' AND ROWNUM = 1
+    </select>
 </mapper>

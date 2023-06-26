@@ -5,7 +5,6 @@
 <mapper namespace="com.aks.cateringinfosys.mappers.OrderMapper">
     <insert id="insertOrder">
         INSERT INTO TB_COUPON_ORDER values (#{couponOrder},#{orderCouId},#{orderUserId},#{restName},#{beginTime},#{endTime},#{createTime},#{couponName})
-
     </insert>
     <select id="queryOrderListByUserId" resultType="com.aks.cateringinfosys.entry.Order">
         SELECT * FROM TB_COUPON_ORDER WHERE ORDERUSERID=#{id}

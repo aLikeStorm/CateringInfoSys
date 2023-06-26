@@ -22,4 +22,6 @@ public interface CityMapper {
     @Select("SELECT * FROM tb_city")
     List<City> queryCityList();
     Integer queryCityCodeByCityName(@Param("cityName") String cityName);
+
+    City queryCityByCityName(String cityName);
 }

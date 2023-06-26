@@ -21,6 +21,7 @@ import static com.aks.cateringinfosys.utils.SystemConstants.*;
  */
 @RestController
 @RequestMapping("/coupon")
+@CrossOrigin
 public class CouponController {
     @Autowired
     ICouponService couponService;

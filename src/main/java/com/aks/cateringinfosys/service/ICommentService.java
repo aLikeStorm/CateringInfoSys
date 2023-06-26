@@ -12,7 +12,7 @@ import com.aks.cateringinfosys.entry.Comment;
  * @description
  */
 public interface ICommentService {
-    Result getRestComments(Integer rid);
+    Result getRestComments(Long rid);
 
     Result likeComment(Integer cid);
 
@@ -21,4 +21,6 @@ public interface ICommentService {
     Result getSelfComment();
 
     Result deleteCommentById(Long cid);
+
+    Result getCommentList(Integer type, Long id, Integer currentPage, Integer pageSize);
 }
