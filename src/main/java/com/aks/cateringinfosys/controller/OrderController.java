@@ -32,11 +32,18 @@ public class OrderController {
                                    @PathVariable("id") Long id,
                                    @PathVariable("currentPage") Integer currentPage,
                                    @PathVariable("pageSize")Integer pageSize) {
+        if (type < 1 || type > 3 || id == null || currentPage <= 1 && pageSize <= 1){
+            return Result.fail("url参数错误");
+        }
+
         return iOrderService.getOrderList(type,id,currentPage,pageSize);
     }
 
     @PostMapping("/place")
     public Result snappedCoupon(@RequestBody SnappedCouponDTO snappedCouponDTO) {
+        if (snappedCouponDTO.getType() < 1 || snappedCouponDTO.getType() > 2 || snappedCouponDTO.getOrderCouId() == null){
+            return Result.fail("url参数错误");
+        }
         // 为别人下单只有管理员才可以
         if (snappedCouponDTO.getType() == 2  && UserHolder.getUser().getUid() != ADMINID) {
             return Result.fail("权限不足");
@@ -45,10 +52,16 @@ public class OrderController {
     }
     @GetMapping("/getDetail/{orderId}")
     public Result getDetail(@PathVariable("orderId") Long orderId) {
+        if (orderId == null) {
+            return Result.fail("url参数错误");
+        }
         return iOrderService.getDetail(orderId);
     }
     @GetMapping("/delete/{orderId}")
     public Result deleteOrder(@PathVariable("orderId")Long orderId) {
+        if (orderId == null) {
+            return Result.fail("url参数错误");
+        }
         if (!UserHolder.getUser().getUid().equals(ADMINID)) {
             return Result.fail("权限不足");
         }

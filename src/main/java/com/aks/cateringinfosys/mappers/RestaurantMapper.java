@@ -3,10 +3,7 @@ package com.aks.cateringinfosys.mappers;
 import com.aks.cateringinfosys.entry.City;
 import com.aks.cateringinfosys.entry.RestType;
 import com.aks.cateringinfosys.entry.Restaurant;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -50,4 +47,9 @@ public interface RestaurantMapper {
     @Update("UPDATE TB_REST SET RESTLIKENUM = RESTLIKENUM+1 WHERE RESTID=#{restId}")
     boolean addLike(Long restId);
 
+    @Select("SELECT COUNT(RESTID) FROM TB_REST")
+    Integer countData();
+
+    @Update("UPDATE TB_REST SET RESTSCORE=#{score} WHERE RESTID=#{restId}")
+    void updateScore(@Param("restId") Long restId, @Param("score") Float score);
 }

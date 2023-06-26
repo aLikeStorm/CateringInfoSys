@@ -30,6 +30,10 @@ public class FoodController {
                               @PathVariable("info") String info,
                               @PathVariable("currentPage")Integer currentPage,
                               @PathVariable("pageSize")Integer pageSize){
+        if (type < 1 || type > 2 || currentPage < 0 || pageSize < 0 ) {
+            return Result.fail("url参数错误");
+        }
+
         Long restId = null;
         String restName = null;
         if (type == 1){
@@ -61,6 +65,9 @@ public class FoodController {
     }
     @GetMapping("/delete/{foodId}")
     public Result deleteFood(@PathVariable("foodId") Long foodId) {
+        if (foodId == null || foodId.equals(0)) {
+            return Result.fail("url参数错误");
+        }
         if (!UserHolder.getUser().getUid().equals(ADMINID)) {
             return Result.fail("权限不足");
         }

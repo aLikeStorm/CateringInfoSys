@@ -24,14 +24,25 @@ public class CommentController {
     ICommentService commentService;
     @GetMapping("/getRestComments/{rid}")
     public Result getRestComments(@PathVariable("rid") Long rid) {
+        if(rid == null || rid.equals(0)) {
+            return Result.fail("url参数错误");
+        }
+
         return commentService.getRestComments(rid);
     }
     @PatchMapping("/likeComment/{cid}")
     public Result likeComment(@PathVariable("cid") Integer cid) {
+        if(cid == null || cid.equals(0)) {
+            return Result.fail("url参数错误");
+        }
         return commentService.likeComment(cid);
     }
     @PostMapping("/addComment")
     public Result addComment(@RequestBody Comment comment) {
+        if (comment.getRid() == null || comment.getComment() == null || comment.getCommentScore() <0 || comment.getCommentScore() > 5) {
+            return Result.fail("url参数错误");
+        }
+
         return commentService.addComment(comment);
     }
     @GetMapping("/self")
@@ -40,6 +51,9 @@ public class CommentController {
     }
     @GetMapping("/delete/{cid}")
     public Result deleteCommentById(@PathVariable("cid") Long cid) {
+        if(cid == null || cid.equals(0)) {
+            return Result.fail("url参数错误");
+        }
         return commentService.deleteCommentById(cid);
     }
     @GetMapping("/getCommentList/{type}/{id}/{currentPage}/{pageSize}")
@@ -47,6 +61,10 @@ public class CommentController {
                                  @PathVariable("id")Long id,
                                  @PathVariable("currentPage")Integer currentPage,
                                  @PathVariable("pageSize")Integer pageSize){
+        if (type < 1 || type > 3 || id == null || currentPage < 1 || pageSize< 1) {
+            return Result.fail("url参数错误");
+        }
+
         // todo 若根据用户id查询，但是并不是自己的id，不是管理员则没有权限
         if (type == 1
                 && !UserHolder.getUser().getUid().equals(id)

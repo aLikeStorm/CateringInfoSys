@@ -50,4 +50,10 @@ public interface CommentMapper {
 
     @Select("SELECT COMMENTID AS \"cid\", COMMENTUSERID as \"uid\", COMMENTRESTID as \"rid\", COMMENTTEXT as \"comment\", COMMENTSCORE, CREATETIME FROM TB_COMMENT WHERE COMMENTID=#{cid}")
     Comment queryCommentByCid(Long cid);
+
+    @Select("SELECT AVG(COMMENTSCORE) FROM TB_COMMENT WHERE COMMENTRESTID=#{restId}")
+    Float queryAvgScore(Long restId);
+
+    @Select("SELECT COUNT(COMMENTID) FROM TB_COMMENT WHERE COMMENTRESTID=#{restId}")
+    Integer countComment(Long restId);
 }
